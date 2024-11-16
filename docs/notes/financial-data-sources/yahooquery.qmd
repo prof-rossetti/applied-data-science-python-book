@@ -15,6 +15,7 @@ execute:
 #| echo: false
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
+#warnings.filterwarnings("ignore")
 ```
 
 ## Single Company
@@ -22,39 +23,42 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 ```{python}
 from yahooquery import Ticker
 
-symbol = "NFLX"
-
-ticker = Ticker(symbol)
-ticker
+ticker = Ticker("NFLX")
 ```
+
+Company information:
 
 ```{python}
 ticker.summary_profile
 ```
 
+Historical prices:
 
 
 ```{python}
 df = ticker.history(start="2024-01-01", end="2024-01-31", adj_ohlc=True)
-#print(df.index)
-
 df.head()
 ```
+
 
 ## Multiple Companies
 
 ```{python}
 from yahooquery import Ticker
 
-symbols = ["MSFT", "AAPL", "GOOGL"]
-
-tickers = Ticker(symbols)
-tickers
+tickers = Ticker( ["MSFT", "AAPL", "GOOGL"])
 ```
+
+Company information:
+
+```{python}
+tickers.summary_profile
+```
+
+Historical prices:
 
 ```{python}
 df = tickers.history()
-#print(df.index)
 df.head()
 ```
 
@@ -63,13 +67,10 @@ Simplifying the multi-index:
 ```{python}
 from pandas import to_datetime
 
-df = tickers.history()
-#print(df.index)
 df["symbol"] = df.index.get_level_values(0)
 df["date"] = to_datetime(df.index.get_level_values(1)).date
 
 df.reset_index(drop=True, inplace=True)
-
 df[["date", "symbol", "adjclose"]].head()
 ```
 

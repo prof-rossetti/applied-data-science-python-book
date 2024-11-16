@@ -5,7 +5,7 @@ Fetching data from Yahoo Finance:
 ```{python}
 import yfinance as yf
 
-ticker = "NVDA"
-df = yf.download(ticker, start="2014-01-01", end="2024-01-01")
-df
+symbol = "NVDA"
+df = yf.download(symbol, start="2014-01-01", end="2024-01-31")
+df.head()
 ```
