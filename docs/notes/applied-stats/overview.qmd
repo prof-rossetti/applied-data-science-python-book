@@ -1,0 +1,7 @@
+# Applied Statistics
+
+
+  + [Summary Statistics](./summary-stats.qmd)
+  + [Statistical Tests](./basic-tests.qmd)
+  + [Data Scaling](./data-scaling.qmd)
+  + [Correlation](./correlation.qmd)

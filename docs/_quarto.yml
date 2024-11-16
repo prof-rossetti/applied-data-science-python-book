@@ -2,7 +2,7 @@ project:
   type: book
   output-dir: _build
   preview:
-    port: 6833 # use the same port instead of a new one each time
+    port: 6829 # use the same port instead of a new one each time
     browser: true
 
 # https://quarto.org/docs/books/
@@ -68,31 +68,89 @@ book:
     - index.qmd
     #- notes/predictive-modeling.qmd
 
-    #- part: "Machine Learning Foundations"
-    #  chapters:
-    #    - href: notes/ml-foundations/index.qmd
-    #      text: "Machine Learning Overview"
-    #
-    #    - href: notes/ml-foundations/generalization.qmd
-    #      text: "Generalization"
-    #
-    #    - href: notes/ml-foundations/data-encoding.qmd
-    #      text: "Data Encoding"
-    #
-    #    - href: notes/ml-foundations/data-scaling.qmd
-    #      text: "Data Scaling"
+    - part: "Intro to Pandas"
+      chapters:
+
+        - href: notes/pandas/overview.qmd
+          text: "Pandas Package Overview"
+
+        - href: notes/pandas/dataframes-2.ipynb
+          text: "Dataframes"
+
+        #- href: notes/pandas/dataframes.qmd
+        #  text: "Data Frames"
+
+        #- href: notes/pandas/series.qmd
+        #  text: "Data Frames"
+
+        #- href: notes/pandas/dates-times.qmd
+        #  text: "Dates and Times in Pandas"
+
+
+    - part: "Data Analytics in Pandas"
+      chapters:
+
+        - href: notes/pandas/grouping-pivoting.qmd
+          text: "Grouping and Pivoting"
+
+        - href: notes/pandas/shift-methods.qmd
+          text: "Shift based Methods" # "Growth and Cumulative Growth"
+
+        - href: notes/pandas/moving-averages.qmd
+          text: "Moving Averages"
+
+        - href: notes/pandas/joining-merging-old.ipynb
+          text: "Joining and Merging"
+
+
+    - part: "Applied Statistics"
+      chapters:
+
+        - href: notes/applied-stats/summary-stats.qmd
+          text: "Summary Statistics"
+
+        - href: notes/applied-stats/basic-tests-old.qmd
+          text: "Statistical Tests"
+
+        #- href: notes/applied-stats/data-scaling.qmd
+        #  text: "Data Scaling"
+
+        - href: notes/applied-stats/correlation.qmd
+          text: "Correlation"
+
+
+
+
 
 
     - "-----------------"
     - about-author.qmd
     - "-----------------"
 
-  #appendices:
-  #
+  appendices:
+
   #  - part: "Custom Functions In-Depth"
   #    chapters:
   #      - notes/python-lang/control-flow/function-docs.qmd
   #      - notes/python-lang/control-flow/unit-testing.qmd
+
+
+    #- "---------"
+    #- text: "Appendices"
+    #- "---------"
+    - part: "Financial Data Sources"
+      chapters:
+
+        - href: notes/financial-data-sources/yfinance.qmd
+          text: "Y-Finance"
+
+        - href: notes/financial-data-sources/yahooquery.qmd
+          text: "Yahoo Query"
+
+        - href: notes/financial-data-sources/pandas-datareader.qmd
+          text: "Pandas Datareader"
+
+
 
 
   # shows up at bottom of page

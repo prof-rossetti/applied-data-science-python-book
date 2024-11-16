@@ -1,1 +1,5 @@
 /.quarto/
+
+.jupyter_cache
+
+.DS_Store

@@ -1,0 +1,17 @@
+---
+format:
+  html:
+    code-fold: false #show
+jupyter: python3
+execute:
+  cache: true # re-render only when source changes
+---
+
+# The `pandas.DataFrame` Datatype
+
+
+The [`pandas` package](https://pypi.org/project/pandas/) makes it easy to work with CSV formatted data, by providing us with two new datatypes, called the `DataFrame` and the `Series`. This guide will walk you through common and practical ways of working with these objects.
+
+## 1) Obtaining DataFrames
+
+The `pandas` package provides a datatype called the `DataFrame`, which represents tabular, spreadsheet-style data with rows and columns.

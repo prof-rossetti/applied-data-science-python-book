@@ -1,0 +1,81 @@
+---
+format:
+  html:
+    code-fold: false #show
+jupyter: python3
+execute:
+  cache: true # re-render only when source changes
+---
+
+# The `yahooquery` Package
+
+
+
+```{python}
+#| echo: false
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+```
+
+## Single Company
+
+```{python}
+from yahooquery import Ticker
+
+symbol = "NFLX"
+
+ticker = Ticker(symbol)
+ticker
+```
+
+```{python}
+ticker.summary_profile
+```
+
+
+
+```{python}
+df = ticker.history(start="2024-01-01", end="2024-01-31", adj_ohlc=True)
+#print(df.index)
+
+df.head()
+```
+
+## Multiple Companies
+
+```{python}
+from yahooquery import Ticker
+
+symbols = ["MSFT", "AAPL", "GOOGL"]
+
+tickers = Ticker(symbols)
+tickers
+```
+
+```{python}
+df = tickers.history()
+#print(df.index)
+df.head()
+```
+
+Simplifying the multi-index:
+
+```{python}
+from pandas import to_datetime
+
+df = tickers.history()
+#print(df.index)
+df["symbol"] = df.index.get_level_values(0)
+df["date"] = to_datetime(df.index.get_level_values(1)).date
+
+df.reset_index(drop=True, inplace=True)
+
+df[["date", "symbol", "adjclose"]].head()
+```
+
+Pivoting the data:
+
+```{python}
+prices_pivot = df.pivot(columns="symbol", values="adjclose", index="date")
+prices_pivot.head()
+```
