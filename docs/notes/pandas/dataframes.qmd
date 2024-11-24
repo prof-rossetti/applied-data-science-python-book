@@ -7,11 +7,136 @@ execute:
   cache: true # re-render only when source changes
 ---
 
-# The `pandas.DataFrame` Datatype
-
-
-The [`pandas` package](https://pypi.org/project/pandas/) makes it easy to work with CSV formatted data, by providing us with two new datatypes, called the `DataFrame` and the `Series`. This guide will walk you through common and practical ways of working with these objects.
-
-## 1) Obtaining DataFrames
+# Obtaining Dataframes
 
 The `pandas` package provides a datatype called the `DataFrame`, which represents tabular, spreadsheet-style data with rows and columns.
+
+It is common to obtain a `DataFrame` by constructing one from some data, or by reading a CSV file.
+
+## Constructing Dataframes
+
+If we have some data in an eligible format (list of lists, list of dictionaries, dictionary of lists), we can pass it to the [`DataFrame` class](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) constructor to obtain a dataframe object.
+
+### From a List of Lists
+
+Constructing a `DataFrame` from a list of lists:
+
+```{python}
+from pandas import DataFrame
+
+# lesser used format (list of lists)
+prices = [
+    ["2020-10-01", 100.00],
+    ["2020-10-02", 101.01],
+    ["2020-10-03", 120.20],
+    ["2020-10-04", 107.07],
+    ["2020-10-05", 142.42],
+    ["2020-10-06", 135.35],
+    ["2020-10-07", 160.60],
+    ["2020-10-08", 162.62],
+]
+
+df = DataFrame(prices, columns=["date","stock_price_usd"])
+print(type(df))
+df.head()
+```
+
+Because the lists don't have column names, we supply those separately, using the `columns` parameter.
+
+### From a List of Dictionaries
+
+Constructing a `DataFrame` from a list of dictionaries (i.e. "records" format):
+
+
+```{python}
+from pandas import DataFrame
+
+# common "records" format (list of dicts)
+prices = [
+    {"date": "2020-10-01", "stock_price_usd": 100.00},
+    {"date": "2020-10-02", "stock_price_usd": 101.01},
+    {"date": "2020-10-03", "stock_price_usd": 120.20},
+    {"date": "2020-10-04", "stock_price_usd": 107.07},
+    {"date": "2020-10-05", "stock_price_usd": 142.42},
+    {"date": "2020-10-06", "stock_price_usd": 135.35},
+    {"date": "2020-10-07", "stock_price_usd": 160.60},
+    {"date": "2020-10-08", "stock_price_usd": 162.62},
+]
+
+df = DataFrame(prices)
+print(type(df))
+df.head()
+```
+
+In this case, each dictionary in the list has certain keys, which will show up as the corresponding columns in the dataframe.
+
+### From a Dictionary of Lists
+
+Constructing a `DataFrame` from a dictionary of lists:
+
+
+```{python}
+from pandas import DataFrame
+
+# lesser used format (dict of lists)
+prices = {
+    "date": [
+        "2020-10-01", "2020-10-02", "2020-10-03", "2020-10-04",
+        "2020-10-05", "2020-10-06", "2020-10-07", "2020-10-08"
+    ],
+    "stock_price_usd": [
+        100.00, 101.01, 120.20, 107.07, 142.42, 135.35, 160.60, 162.62
+    ]
+}
+df = DataFrame(prices)
+print(type(df))
+df.head()
+```
+
+The dictionary's keys correspond with the column names, and the dictionary's values correspond with the values for each column.
+
+## Reading CSV Files
+
+If we have data in CSV format, we can leverage the [`read_csv`](https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html) function to convert that data into a Dataframe object.
+
+
+::: {.callout-note}
+if we have an XLS or XLSX file, we can alternatively use the [`read_excel`](https://pandas.pydata.org/docs/reference/api/pandas.read_excel.html) function.
+:::
+
+### Local CSV Files
+
+We can read local CSV files.
+
+For example there is a CSV file in the Colab Filesystem called "california_housing_train.csv" in the "sample_data" directory.
+
+![Example CSV file in the Colab Filesystem](../../images/colab-sample-data-file.png){height=350}
+
+To read this file, we pass the filepath to the `read_csv` function:
+
+```{python}
+from pandas import read_csv
+
+csv_filepath = "sample_data/california_housing_test.csv"
+df = read_csv(csv_filepath)
+print(type(df))
+df.head()
+```
+
+Note: we can upload other CSV files to the Colab Filesystem as well, and read them using this same approach.
+
+
+### Hosted CSV Files
+
+We can also read CSV formatted data hosted on the Internet.
+
+We note the URL of the hosted file, and pass it to the `read_csv` function:
+
+```{python}
+from pandas import read_csv
+
+request_url = "https://raw.githubusercontent.com/prof-rossetti/intro-to-python/main/data/daily_adjusted_nflx.csv"
+df = read_csv(request_url)
+print(type(df))
+df.head()
+```

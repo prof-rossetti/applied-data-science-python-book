@@ -8,3 +8,82 @@ execute:
 ---
 
 # The `pandas.Series` Datatype
+
+Let's return to focus on the [`Series` datatype](https://pandas.pydata.org/docs/reference/api/pandas.Series.html) in more detail.
+
+
+## Obtaining a Series
+
+### Column as `Series`
+
+When we access a given **column** of values, we have a `Series` object:
+
+```
+closing_prices = prices_df["adjusted_close"]
+
+print(type(closing_prices))
+print(closing_prices)
+```
+
+With a column as a `Series`, we can use list-like accessors, and we can convert it to a list of values as desired:
+
+```
+closing_prices[0]
+
+print(closing_prices.tolist())
+```
+
+### Row as `Series`
+
+## Working with Series
+
+When we access a given **row** of values, we have a `Series` object as well:
+
+```
+latest = prices_df.iloc[0]
+print(type(latest))
+print(latest)
+```
+
+With a row as a `Series`, we can use dictionary-like accessors, and can convert it to a dictionary as desired:
+
+```
+latest["close"]
+```
+
+```
+latest.to_dict()
+```
+
+
+### Series Aggregations
+
+Consult the pandas Series docs for a comprehensive list of methods, including these aggregation methods:
+
+
+```
+prices_df["adjusted_close"].min()
+
+prices_df["adjusted_close"].max()
+
+prices_df["adjusted_close"].mean()
+
+prices_df["adjusted_close"].median()
+```
+
+### Value Counts
+
+```
+prices_df["dividend_amount"].value_counts()
+```
+
+We can use the `normalize` parameter to display our counts as percentage of the total number of rows:
+
+```
+prices_df["dividend_amount"].value_counts(normalize=True)
+```
+
+
+```
+prices_df["adjusted_close"].value_counts(normalize=True)
+```

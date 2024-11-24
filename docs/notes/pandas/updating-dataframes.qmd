@@ -1,0 +1,112 @@
+
+# Updating Dataframes
+
+
+Let's zoom back out to the `DataFrame` level, and learn how to manipulate or change them.
+
+
+## Resetting the Index
+
+
+Every `DataFrame` has a default index values, but we can set our own.
+
+We might do this in practice when one of the columns in the dataset contains values which uniquely identify each row in the dataset.
+
+```
+# assuming our timestamp values are unique, we could use them as the index:
+#prices_df.index = prices_df["timestamp"]
+
+#prices_df.head()
+# creating a copy of our dataset, so we don't change the original:
+prices_copy = prices_df.copy()
+
+# set new index
+# assuming our "timestamp" values are unique, we could use them as the index:
+prices_copy.index = prices_copy["timestamp"]
+prices_copy.head()
+```
+
+## Creating New Columns
+
+
+We can create a new column by specifying the name of that column and assigning a new value. For example, a column of constants:
+
+
+
+```
+```
+
+
+In practice, instead of creating a new column of constants, we will generally use an entire new column or list of values, and assign those to the new column (see "Mapping Columns" section below).
+
+### Renaming Columns
+
+We can use the [`rename` method](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.rename.html) to rename columns. This is not mutating unless we use the `inplace` parameter.
+
+
+```
+prices_df.rename(columns={"my_constant":"renamed_constant"}, inplace=True)
+prices_df["renamed_constant"]
+```
+
+## Dropping Columns
+
+We can use the [`drop` method](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.drop.html) to remove columns from the dataset. This is not mutating unless we use the `inplace` parameter.
+
+
+```
+prices_df.drop(columns=["renamed_constant"], inplace=True)
+prices_df.head()
+```
+
+## Mapping Columns
+
+
+We can create mapped / transformed versions of the original columns, and store them back in the dataframe in a new column.
+
+When we perform an operation with a scalar (single value), we perform that operation on each item in the `Series`, in this case, multiplying each value by 100:
+
+
+When we perform operations with two series, this performs an element-wise operation where the first values in each series are compared, then the second values, etc.
+
+This essentially allows us to access and compare multiple values from the same row:
+
+
+```
+# mapped Series of values:
+prices_df["close"] - prices_df["open"]
+```
+
+```
+# storing back in a new column:
+prices_df["daily_change"] = prices_df["close"] - prices_df["open"]
+
+prices_df[["timestamp", "open", "close", "daily_change"]].head()
+```
+
+#### Applying a Transformation Function
+
+For more complex logic, we can use the [`apply` method](https://pandas.pydata.org/docs/reference/api/pandas.Series.apply.html) to apply a transformation function.
+
+We define our own transformation function which accepts a single parameter representing one of the values in the original series we are applying the transformation over, and return the transformed value.
+
+Then we pass that transformation function as a parameter to the `apply` method:
+
+```
+# transformation function:
+
+def buy_sell_recommendation(adjusted_closing_price):
+    if adjusted_closing_price < 630:
+        return "BUY"
+    else:
+        return "SELL"
+
+assert buy_sell_recommendation(629.9) == "BUY"
+assert buy_sell_recommendation(630.1) == "SELL"
+```
+
+```
+prices_df["recommendation"] = prices_df["adjusted_close"].apply(buy_sell_recommendation)
+
+prices_df[[ "adjusted_close", "recommendation"]].head()
+```

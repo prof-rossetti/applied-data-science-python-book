@@ -66,28 +66,30 @@ book:
 
   chapters:
     - index.qmd
-    #- notes/predictive-modeling.qmd
+
+    - href: notes/tabular-data.qmd
+      text: "Tabular Data"
 
     - part: "Intro to Pandas"
       chapters:
 
-        - href: notes/pandas/overview.qmd
-          text: "Pandas Package Overview"
+        - href: notes/pandas/dataframes.qmd
+          text: "Obtaining Dataframes"
 
-        - href: notes/pandas/dataframes-2.ipynb
-          text: "Dataframes"
+        - href: notes/pandas/working-with-dataframes.qmd
+          text: "Working with Dataframes"
 
-        #- href: notes/pandas/dataframes.qmd
-        #  text: "Data Frames"
+        - href: notes/pandas/series.qmd
+          text: "Working with Series"
 
-        #- href: notes/pandas/series.qmd
-        #  text: "Data Frames"
+        - href: notes/pandas/updating-dataframes.qmd
+          text: "Updating Dataframes"
 
-        #- href: notes/pandas/dates-times.qmd
-        #  text: "Dates and Times in Pandas"
+        - href: notes/pandas/dates-times.qmd
+          text: "Dates and Times"
 
 
-    - part: "Data Analytics in Pandas"
+    - part: "Data Analysis with Pandas"
       chapters:
 
         - href: notes/pandas/grouping-pivoting.qmd
@@ -119,21 +121,12 @@ book:
           text: "Correlation"
 
 
-
-
-
-
     - "-----------------"
     - about-author.qmd
     - "-----------------"
 
+
   appendices:
-
-  #  - part: "Custom Functions In-Depth"
-  #    chapters:
-  #      - notes/python-lang/control-flow/function-docs.qmd
-  #      - notes/python-lang/control-flow/unit-testing.qmd
-
 
     #- "---------"
     #- text: "Appendices"
@@ -149,7 +142,6 @@ book:
 
         - href: notes/financial-data-sources/pandas-datareader.qmd
           text: "Pandas Datareader"
-
 
 
 

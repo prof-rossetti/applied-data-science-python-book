@@ -8,3 +8,68 @@ execute:
 ---
 
 # Dates and Times in `pandas`
+
+
+When we are working with date and time related values, it is possible to write our own conversion functions, like the examples below:
+
+```
+# transformation function:
+
+def parse_year_month(my_date_str):
+    """Param my_date_str (str) : a date string like '2021-10-18'."""
+    # take the first seven characters, like "2021-10"
+    return my_date_str[0:7]
+
+assert parse_year_month("2050-01-30") == "2050-01"
+```
+
+```
+prices_df["year_month"] = prices_df["timestamp"].apply(parse_year_month)
+
+prices_df[["timestamp", "year_month"]]
+```
+
+```
+def day_of_week(day_index):
+    weekdays_map = {0: "Monday", 1: "Tuesday", 2: "Wednesday", 3: "Thursday", 4: "Friday", 5: "Saturday", 6: "Sunday"}
+    return weekdays_map[day_index]
+
+prices_df["day_of_week"] = prices_df["weekday"].apply(day_of_week)
+prices_df[["timestamp", "timestamp_dt", "year_month", "year", "month", "weekday", "day_of_week"]]
+```
+
+# The `pandas.to_datetime` Function
+
+However, for date and time specific values, it can be helpful to use the [`to_datetime` function](https://pandas.pydata.org/docs/reference/api/pandas.to_datetime.html) to make life easier.
+
+After passing a column of date strings into the `to_datetime` function, we obtain a datetime-aware column that respects datetime operations.
+
+```
+print(type(prices_df["timestamp"][0]))
+```
+
+```
+from pandas import to_datetime
+
+prices_df["timestamp_dt"] = to_datetime(prices_df["timestamp"])
+
+print(type(prices_df["timestamp_dt"][0]))
+```
+
+This allows us to easily convert and transform those values to various component date parts, such as just the year, just the month, etc.:
+
+
+```
+prices_df["year"] = prices_df["timestamp_dt"].dt.year
+prices_df["month"] = prices_df["timestamp_dt"].dt.month
+prices_df["weekday"] = prices_df["timestamp_dt"].dt.weekday
+prices_df["day_name"] = prices_df["timestamp_dt"].dt.strftime("%A")
+
+prices_df[["timestamp", "timestamp_dt", "year_month", "year", "month", "weekday", "day_name"]]
+```
+
+For more information about date and time conversions, see the following documentation links:
+
+  + <https://docs.python.org/3/library/datetime.html>
+  + <https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior>
+  + <https://docs.python.org/3/library/datetime.html#datetime.datetime.weekday>
