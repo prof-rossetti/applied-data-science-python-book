@@ -1,0 +1,78 @@
+
+# Working with DataFrames
+
+To continue working with dataframes, lets consider this dataframe of products:
+
+
+```{python}
+from pandas import read_csv
+
+request_url = ("https://raw.githubusercontent.com/prof-rossetti/intro-to-python"
+                "/main/data/products.csv")
+df = read_csv(request_url)
+print(type(df))
+df.head()
+```
+
+
+Now that we have obtained a dataframe, let's start working with it.
+
+## Previewing the Data
+
+We can preview the first few rows, or the last few rows, using the `head` or `tail` method, respectively:
+
+```{python}
+df.head()
+```
+
+```{python}
+df.tail()
+```
+
+By default, we see five rows, but we can customize the number of rows by passing an integer parameter to these methods, like `head(3)` or `tail(3)`.
+
+## Dataset Properties
+
+### Size and Shape
+
+Counting number of rows, by passing the dataframe to the familiar `len` function:
+
+```{python}
+len(df)
+```
+
+
+Using the `shape` property is especially helpful when working with multidimensional data (i.e. data in three or more dimensions).
+
+```{python}
+df.shape
+```
+
+:::{.callout-note}
+The `shape` is a tuple formatted as `(n_rows, n_cols)`, where the first value represents the number of rows, and the second represents the number of columns.
+
+:::
+
+### Column Names
+
+Identifying column names, using the `columns` property:
+
+```{python}
+print(df.columns)
+```
+
+```{python}
+# converting to list:
+print(df.columns.tolist())
+```
+
+## Saving Data to CSV File
+
+We can use the [`to_csv` method](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html) to export a `DataFrame` to a CSV file. When we do this, we specify as a parameter the name of the CSV file that should be created:
+
+```
+# run this cell then check the colab notebook filesystem, where you can see the file and download it
+prices_df.to_csv("prices_export.csv", index=False)
+```
+
+When saving files in Colab, the file will be saved to the Colab Filesystem, where we have the ability to download the file to our local machine.

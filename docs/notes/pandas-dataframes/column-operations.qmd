@@ -1,0 +1,172 @@
+---
+format:
+  html:
+    code-fold: false #show
+jupyter: python3
+execute:
+  cache: true # re-render only when source changes
+---
+
+# Column Operations
+
+
+
+## Accessing Columns
+
+We can access one or more columns worth of values, using a dictionary-like accessor.
+
+When we access a single column (using a string column name), we get a pandas `Series` object:
+
+```
+df["name"]
+```
+
+When we access multiple columns (using a list of column names), we get a `DataFrame` object back:
+
+```
+closing_prices = prices_df[["timestamp", "adjusted_close", "volume"]]
+print(type(closing_prices)) #> DataFrame
+
+closing_prices.head()
+```
+
+
+
+### Column as `Series`
+
+When we access a given **column** of values, we have a `Series` object:
+
+```
+closing_prices = prices_df["adjusted_close"]
+
+print(type(closing_prices))
+print(closing_prices)
+```
+
+With a column as a `Series`, we can use list-like accessors, and we can convert it to a list of values as desired:
+
+```
+closing_prices[0]
+
+print(closing_prices.tolist())
+```
+
+
+
+### Series Aggregations
+
+Consult the pandas Series docs for a comprehensive list of methods, including these aggregation methods:
+
+
+```
+prices_df["adjusted_close"].min()
+
+prices_df["adjusted_close"].max()
+
+prices_df["adjusted_close"].mean()
+
+prices_df["adjusted_close"].median()
+```
+
+
+### Value Counts
+
+```
+prices_df["dividend_amount"].value_counts()
+```
+
+We can use the `normalize` parameter to display our counts as percentage of the total number of rows:
+
+```
+prices_df["dividend_amount"].value_counts(normalize=True)
+```
+
+
+```
+prices_df["adjusted_close"].value_counts(normalize=True)
+```
+
+
+## Renaming Columns
+
+We can use the [`rename` method](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.rename.html) to rename columns. This is not mutating unless we use the `inplace` parameter.
+
+
+```
+df.rename(columns={"my_constant":"renamed_constant"}, inplace=True)
+df["renamed_constant"]
+```
+
+## Dropping Columns
+
+We can use the [`drop` method](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.drop.html) to remove columns from the dataset. This is not mutating unless we use the `inplace` parameter.
+
+
+```
+df.drop(columns=["renamed_constant"], inplace=True)
+df.head()
+```
+
+## Creating New Columns
+
+
+We can create a new column by specifying the name of that column and assigning a new value. For example, a column of constants:
+
+```
+df["name_copy"] = df["name"]
+df.head()
+```
+
+In practice, instead of creating a new column of constants, we will generally use an entire new column or list of values, and assign those to the new column (see "Mapping Columns" section below).
+
+## Mapping Columns
+
+
+We can create mapped / transformed versions of the original columns, and store them back in the dataframe in a new column.
+
+When we perform an operation with a scalar (single value), we perform that operation on each item in the `Series`, in this case, multiplying each value by 100:
+
+
+When we perform operations with two series, this performs an element-wise operation where the first values in each series are compared, then the second values, etc.
+
+This essentially allows us to access and compare multiple values from the same row:
+
+
+```
+# mapped Series of values:
+prices_df["close"] - prices_df["open"]
+```
+
+```
+# storing back in a new column:
+prices_df["daily_change"] = prices_df["close"] - prices_df["open"]
+
+prices_df[["timestamp", "open", "close", "daily_change"]].head()
+```
+
+### Applying a Transformation Function
+
+For more complex logic, we can use the [`apply` method](https://pandas.pydata.org/docs/reference/api/pandas.Series.apply.html) to apply a transformation function.
+
+We define our own transformation function which accepts a single parameter representing one of the values in the original series we are applying the transformation over, and return the transformed value.
+
+Then we pass that transformation function as a parameter to the `apply` method:
+
+```
+# transformation function:
+
+def buy_sell_recommendation(adjusted_closing_price):
+    if adjusted_closing_price < 630:
+        return "BUY"
+    else:
+        return "SELL"
+
+assert buy_sell_recommendation(629.9) == "BUY"
+assert buy_sell_recommendation(630.1) == "SELL"
+```
+
+```
+prices_df["recommendation"] = prices_df["adjusted_close"].apply(buy_sell_recommendation)
+
+prices_df[[ "adjusted_close", "recommendation"]].head()
+```

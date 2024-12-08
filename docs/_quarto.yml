@@ -74,7 +74,7 @@ book:
       chapters:
 
         - href: notes/pandas/dataframes.qmd
-          text: "Obtaining Dataframes"
+          text: "Creating Dataframes"
 
         - href: notes/pandas/working-with-dataframes.qmd
           text: "Working with Dataframes"

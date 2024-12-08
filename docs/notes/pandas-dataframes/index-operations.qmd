@@ -1,0 +1,45 @@
+---
+format:
+  html:
+    code-fold: false #show
+jupyter: python3
+execute:
+  cache: true # re-render only when source changes
+---
+
+# Row Index Values
+
+
+## Accessing the Index
+
+Every `DataFrame` object has an index, which is a set of unique row identifiers.
+
+The default index is a set of auto-incrementing numbers starting at 0.
+
+```{python}
+df.index
+```
+
+It is possible to convert the `Index` object to a list for simplicity:
+
+```{python}
+df.index.tolist()
+```
+
+## Resetting the Index
+
+
+Every `DataFrame` has a default index values, but we can set our own.
+
+We might do this in practice when one of the columns in the dataset contains values which uniquely identify each row in the dataset.
+
+```
+prices_df.index = prices_df["timestamp"]
+```
+
+## Resetting a Multi-Index
+
+If our dataset has a multi-index (like a composite primary key comprised of multiple columns), we can convert the index components to their own columns, and reset the index to be simpler:
+
+```
+```

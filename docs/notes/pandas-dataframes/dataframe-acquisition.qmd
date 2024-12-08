@@ -7,7 +7,7 @@ execute:
   cache: true # re-render only when source changes
 ---
 
-# Obtaining Dataframes
+# Creating Dataframes
 
 The `pandas` package provides a datatype called the `DataFrame`, which represents tabular, spreadsheet-style data with rows and columns.
 
@@ -17,7 +17,7 @@ It is common to obtain a `DataFrame` by constructing one from some data, or by r
 
 If we have some data in an eligible format (list of lists, list of dictionaries, dictionary of lists), we can pass it to the [`DataFrame` class](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) constructor to obtain a dataframe object.
 
-### From a List of Lists
+### List of Lists
 
 Constructing a `DataFrame` from a list of lists:
 
@@ -43,7 +43,7 @@ df.head()
 
 Because the lists don't have column names, we supply those separately, using the `columns` parameter.
 
-### From a List of Dictionaries
+### List of Dictionaries
 
 Constructing a `DataFrame` from a list of dictionaries (i.e. "records" format):
 
@@ -70,7 +70,7 @@ df.head()
 
 In this case, each dictionary in the list has certain keys, which will show up as the corresponding columns in the dataframe.
 
-### From a Dictionary of Lists
+### Dictionary of Lists
 
 Constructing a `DataFrame` from a dictionary of lists:
 
@@ -95,16 +95,13 @@ df.head()
 
 The dictionary's keys correspond with the column names, and the dictionary's values correspond with the values for each column.
 
-## Reading CSV Files
+## Reading Data from File
 
 If we have data in CSV format, we can leverage the [`read_csv`](https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html) function to convert that data into a Dataframe object.
 
+Alternatively, if we have an XLS or XLSX file, we can use the [`read_excel`](https://pandas.pydata.org/docs/reference/api/pandas.read_excel.html) function.
 
-::: {.callout-note}
-if we have an XLS or XLSX file, we can alternatively use the [`read_excel`](https://pandas.pydata.org/docs/reference/api/pandas.read_excel.html) function.
-:::
-
-### Local CSV Files
+### Local Files
 
 We can read local CSV files.
 
@@ -112,7 +109,7 @@ For example there is a CSV file in the Colab Filesystem called "california_housi
 
 ![Example CSV file in the Colab Filesystem](../../images/colab-sample-data-file.png){height=350}
 
-To read this file, we pass the filepath to the `read_csv` function:
+To read this file (or any others we may upload to the [Colab Filesystem](https://prof-rossetti.github.io/intro-software-dev-python-book/notes/dev-tools/google-colab/filesystem.html), we pass the filepath to the `read_csv` function:
 
 ```{python}
 from pandas import read_csv
@@ -123,10 +120,10 @@ print(type(df))
 df.head()
 ```
 
-Note: we can upload other CSV files to the Colab Filesystem as well, and read them using this same approach.
 
 
-### Hosted CSV Files
+
+### Hosted Files
 
 We can also read CSV formatted data hosted on the Internet.
 

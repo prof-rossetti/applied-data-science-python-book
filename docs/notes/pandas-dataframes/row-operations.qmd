@@ -1,0 +1,152 @@
+---
+format:
+  html:
+    code-fold: false #show
+jupyter: python3
+execute:
+  cache: true # re-render only when source changes
+---
+
+# Row Operations
+
+
+### Accessing Rows
+
+We use a list-like accessor approach to reference a given row, using the `iloc` method.
+
+When we access a single row, we get a `Series` object. In this example, we are accessing the first row, using an index value of `0`:
+
+```{python}
+first_row = df.iloc[0]
+print(type(first_row))
+first_row
+```
+
+
+
+When we access multiple rows, we get a `DataFrame` object. In this example, we are accessing the first three rows, using a slicing approach:
+
+```{python}
+first_rows = df.iloc[0:3]
+print(type(first_rows))
+first_rows
+```
+
+:::{.callout-note  title="FYI"}
+When we use index references like this with the `iloc` method, we are actually referencing the index value itself (which by default is an auto-incrementing integer starting at zero).
+
+But its possible for us the change the index (for example the date).
+
+So if you change your index later, you may need to use the new index values (dates instead of the default integers).
+:::
+
+
+
+
+### Row as `Series`
+
+When we access a given **row** of values, we have a `Series` object as well:
+
+```
+latest = prices_df.iloc[0]
+print(type(latest))
+print(latest)
+```
+
+With a row as a `Series`, we can use dictionary-like accessors, and can convert it to a dictionary as desired:
+
+```
+latest["close"]
+```
+
+```
+latest.to_dict()
+```
+
+
+
+## Iteration (Looping through Rows)
+
+We can loop through each row using the [`iterrows` method](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.iterrows.html), involving a destructuring approach to reference the row index (`i`) as well as the row's values (`row`).
+
+In this example, we are looping through just the first three rows, for simplicity:
+
+
+```{python}
+for i, row in df.head(3).iterrows():
+    print("------------")
+    print("INDEX:", i)
+    print(type(row))
+    print(row)
+```
+
+With this approach, each row is a `Series` object.
+
+## Sorting Rows
+
+We can use the `DataFrame` object's [`sort_values` method](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.sort_values.html
+ ) to sort rows on the basis of one or more given columns.
+
+By default, `sort_values` is not mutating, but as of the current version of `pandas`, we can use the `inplace` parameter to perform a mutating sort:
+
+
+```
+# can store back in same variable to overwrite:
+# prices_df = prices_df.sort_values(by="timestamp", ascending=True)
+
+# or alternatively use inplace=True parameter to perform a MUTATING operations
+prices_df.sort_values(by="timestamp", ascending=True, inplace=True)
+prices_df.head()
+```
+
+We can use the `ascending` parameter to reverse the sort order:
+
+```
+prices_df.sort_values(by="timestamp", ascending=False, inplace=True)
+prices_df.head()
+```
+
+
+## Filtering Rows
+
+We can filter a `DataFrame` to get only the rows that match some given condition.
+
+We first specify a "mask" condition that determines for each row, whether it meet the criteria or not (True vs False).
+
+```
+# this is the mask:
+prices_df["timestamp"] == "2021-10-15"
+```
+
+Filtering based on equality, using familiar `==` operator:
+
+```
+prices_df[  prices_df["timestamp"] == "2021-10-15" ]
+```
+
+Filtering based on numeric comparisons:
+
+```
+prices_df[  prices_df["timestamp"] >= "2021-10-12" ]
+```
+
+Filtering based on values between lower and upper bound, using `between` method:
+
+```
+prices_df[  prices_df["timestamp"].between("2021-10-01", "2021-11-01") ]
+```
+
+
+Filtering based on inclusion, using `isin` method:
+
+```
+dates_of_interest = ["2021-10-15", "2021-10-14", "2021-10-12"]
+
+prices_df[  prices_df["timestamp"].isin(dates_of_interest) ]
+```
+
+Filtering on substring match, using `str.contains` method:
+
+```
+prices_df[  prices_df["timestamp"].str.contains("2021-10-1") ]
+```
