@@ -70,39 +70,52 @@ book:
     - href: notes/tabular-data.qmd
       text: "Tabular Data"
 
-    - part: "Intro to Pandas"
+    - part: "Getting Started w/ Pandas"
       chapters:
 
-        - href: notes/pandas/dataframes.qmd
-          text: "Creating Dataframes"
+        - href: notes/pandas-getting-started/obtaining-dataframes.qmd
+          text: "Obtaining Dataframes"
 
-        - href: notes/pandas/working-with-dataframes.qmd
-          text: "Working with Dataframes"
+#        - href: notes/pandas/getting-started/working-with-dataframes.qmd
+#          text: "Working with Dataframes"
+#
+#
+#    - part: "Data Analysis w/ Pandas"
+#      chapters:
+#
+#        - href: notes/pandas/column-operations.qmd
+#          text: "Dataframe Column Operations"
+#
+#        - href: notes/pandas/row-operations.qmd
+#          text: "Dataframe Row Operations"
+#
+#        - href: notes/pandas/index-operations.qmd
+#          text: "Dataframe Index Operations"
+#
 
-        - href: notes/pandas/series.qmd
-          text: "Working with Series"
+    - part: "Data Wrangling w/ Pandas"
+      chapters:
 
-        - href: notes/pandas/updating-dataframes.qmd
-          text: "Updating Dataframes"
+        #- href: notes/data-wrangling-pandas/overview.qmd
+        #  text: "Data Wrangling Overview"
 
-        - href: notes/pandas/dates-times.qmd
+        - href: notes/pandas-data-wrangling/dates-times.qmd
           text: "Dates and Times"
 
-
-    - part: "Data Analysis with Pandas"
-      chapters:
-
-        - href: notes/pandas/grouping-pivoting.qmd
+        - href: notes/pandas-data-wrangling/grouping-pivoting.qmd
           text: "Grouping and Pivoting"
 
-        - href: notes/pandas/shift-methods.qmd
+        - href: notes/pandas-data-wrangling/shift-methods.qmd
           text: "Shift based Methods" # "Growth and Cumulative Growth"
 
-        - href: notes/pandas/moving-averages.qmd
+        - href: notes/pandas-data-wrangling/moving-averages.qmd
           text: "Moving Averages"
 
-        - href: notes/pandas/joining-merging-old.ipynb
+        - href: notes/pandas-data-wrangling/joining-merging-old.ipynb
           text: "Joining and Merging"
+
+        - href: notes/pandas-data-wrangling/data-scaling.qmd
+          text: "Data Scaling"
 
 
     - part: "Applied Statistics"
@@ -113,9 +126,6 @@ book:
 
         - href: notes/applied-stats/basic-tests-old.qmd
           text: "Statistical Tests"
-
-        #- href: notes/applied-stats/data-scaling.qmd
-        #  text: "Data Scaling"
 
         - href: notes/applied-stats/correlation.qmd
           text: "Correlation"

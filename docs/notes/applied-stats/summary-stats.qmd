@@ -62,6 +62,7 @@ print("MAX:", series.max())
 series.describe() # for comparison
 ```
 
+
 ## Distribution Plots
 
 In order to learn more about the distribution of this data, we can create distribution plots, to tell a story about the summary statistics.

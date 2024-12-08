@@ -7,7 +7,7 @@ execute:
   cache: true # re-render only when source changes
 ---
 
-# Creating Dataframes
+# Obtaining Dataframes
 
 The `pandas` package provides a datatype called the `DataFrame`, which represents tabular, spreadsheet-style data with rows and columns.
 
@@ -95,11 +95,13 @@ df.head()
 
 The dictionary's keys correspond with the column names, and the dictionary's values correspond with the values for each column.
 
-## Reading Data from File
+## Reading Data Files
 
 If we have data in CSV format, we can leverage the [`read_csv`](https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html) function to convert that data into a Dataframe object.
 
 Alternatively, if we have an XLS or XLSX file, we can use the [`read_excel`](https://pandas.pydata.org/docs/reference/api/pandas.read_excel.html) function.
+
+We can use these functions to read local files, as well as hosted data.
 
 ### Local Files
 
@@ -109,7 +111,17 @@ For example there is a CSV file in the Colab Filesystem called "california_housi
 
 ![Example CSV file in the Colab Filesystem](../../images/colab-sample-data-file.png){height=350}
 
+
+```{python}
+#| echo: False
+
+import os
+os.chdir("../../data/colab")
+```
+
+
 To read this file (or any others we may upload to the [Colab Filesystem](https://prof-rossetti.github.io/intro-software-dev-python-book/notes/dev-tools/google-colab/filesystem.html), we pass the filepath to the `read_csv` function:
+
 
 ```{python}
 from pandas import read_csv
