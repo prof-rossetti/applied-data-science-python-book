@@ -8,10 +8,7 @@ For example, this dataset of grocery products:
 ```{python}
 from pandas import read_csv
 
-request_url = (
-    "https://raw.githubusercontent.com/prof-rossetti/intro-to-python" +
-    "/main/data/products.csv"
-)
+request_url = "https://raw.githubusercontent.com/prof-rossetti/intro-to-python/main/data/products.csv"
 df = read_csv(request_url)
 print(type(df))
 ```
@@ -78,7 +75,7 @@ df.columns.tolist()
 The `tolist` method is used across the `numpy` and `pandas` packages to convert specialized data structures to simple Python lists.
 :::
 
-## Accessing the Index
+### Row Index Values
 
 Every `DataFrame` object has an index, which is a set of unique row identifiers.
 
@@ -88,14 +85,33 @@ The default index is a set of auto-incrementing numbers starting at 0.
 df.index
 ```
 
-We get back a list-like object, which we can convert to a simple list using the `tolist` method:
+When we reference the index, we get back a list-like object, which we can convert to a simple list using the `tolist` method:
 
 ```{python}
 df.index.tolist()
 ```
 
 
-### Accessing Rows
+## Accessing Columns
+
+We can access one or more columns worth of values, using a dictionary-like accessor.
+
+To access a single column, we pass the string column name, and we get a pandas `Series` object back:
+
+```{python}
+names = df["name"]
+print(type(names))
+names.head()
+```
+
+To access multiple columns, we pass a list of string column names, and we get a `DataFrame` object back:
+
+```{python}
+names_and_prices = df[["name", "price"]]
+print(type(names_and_prices))
+names_and_prices.head()
+```
+## Accessing Rows
 
 To reference a given row, we use a list-like accessor in conjunction with the `iloc` method.
 
@@ -115,77 +131,32 @@ print(type(first_three))
 first_three
 ```
 
-:::{.callout-warning  title="FYI"}
-When we use index references like this with the `iloc` method, we are actually referencing the index value itself (which by default is an auto-incrementing integer starting at zero, but may change), not the position of the row in the dataset.
+:::{.callout-note}
+When we use index references like this with the `iloc` method, we are actually referencing the index value itself, not the position of the row in the dataset. In the event the index values change, you would need to use the new values instead of the default integer values.
 :::
 
 
 
-## Accessing Columns
 
-We can access one or more columns worth of values, using a dictionary-like accessor.
+## Accessing Cell Values
 
-To access a single column, we pass the string column name, and we get a pandas `Series` object back:
+It is possible to access individual values using the `loc` method, or a row-based approach, or a column-based approach.
+
+
+The `loc` method, specifying the given row index value, and the column name:
 
 ```{python}
-product_names = df["name"]
-print(type(product_names))
-product_names
+df.loc[0, "name"]
 ```
 
-To access multiple columns, we pass a list of string column names, and we get a `DataFrame` object back:
+Row-based approach, using the aforementioned `iloc` method gets us the first row, then we access one of its values using a dictionary-like accessor:
 
 ```{python}
-products_slim = df[["id", "name", "price"]]
-
-print(type(products_slim))
-
-products_slim.head()
+df.iloc[0]["name"]
 ```
 
-## Exporting Data
-
-### To List of Dictionaries ("Records" Format)
-
-Converting a `DataFrame` to a list of dictionaries, using the `to_dict` method:
-```{python}
-products = df.to_dict("records")
-
-print(type(products))
-print(len(products))
-print(type(products[0]))
-products[0]
-```
-
-:::{.callout-note title="FYI"}
-Here, the "records" parameter value has nothing to do with any of the columns in the dataset, but rather the format in which to export the data. The "records" format refers to a list of dictionaries.
-:::
-
-
-### To CSV File
-
-We can use the [`to_csv` method](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html) to export a `DataFrame` to a CSV file.
-
-As a parameter, we specify the name of the CSV file that should be created (in this case, "products_copy.csv"), as well as whether or not to include the index column:
+Column-based approach, referencing the column name to get us the column, then we access one of its values using a list-like accessor:
 
 ```{python}
-df.to_csv("products_copy.csv", index=False)
-```
-
-In Colab, the file will be saved to the Colab Filesystem, where we have the ability to download the file to our local machine.
-
-```{python}
-import os
-
-os.path.isfile("products_copy.csv")
-```
-
-
-
-```{python}
-#| echo: false
-
-import os
-# CLEAN UP:
-os.remove("products_copy.csv")
+df["name"][0]
 ```

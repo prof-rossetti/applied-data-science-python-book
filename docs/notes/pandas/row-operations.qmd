@@ -9,40 +9,50 @@ execute:
 
 # Row Operations
 
+In this chapter we will focus on row operations, including looping, sorting, and filtering rows.
 
+For these examples, we will use our familiar dataset of products:
 
+```{python}
+from pandas import read_csv
 
-
-### Row as `Series`
-
-When we access a given **row** of values, we have a `Series` object as well:
-
-```
-latest = prices_df.iloc[0]
-print(type(latest))
-print(latest)
+request_url = "https://raw.githubusercontent.com/prof-rossetti/intro-to-python/main/data/products.csv"
+df = read_csv(request_url)
+df.head()
 ```
 
-With a row as a `Series`, we can use dictionary-like accessors, and can convert it to a dictionary as desired:
+## Row as a `Series`
 
+Remember, when we access a given row of values, we are working with a `Series` object:
+
+```{python}
+first_row = df.iloc[0]
+print(type(first_row))
+print(first_row)
 ```
-latest["close"]
+
+With a `Series` object as a row, we can use dictionary-like accessors to access the values based on their column names:
+
+```{python}
+print(first_row["name"], first_row["price"])
 ```
 
+And we can convert the `Series` object to a normal dictionary as desired:
+
+```{python}
+first_row.to_dict()
 ```
-latest.to_dict()
-```
 
 
 
-## Iteration (Looping through Rows)
+## Row Iteration (Looping)
 
-We can loop through each row using the [`iterrows` method](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.iterrows.html), involving a destructuring approach to reference the row index (`i`) as well as the row's values (`row`).
+We can loop through each row using the [`iterrows` method](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.iterrows.html), involving a destructuring approach to reference the row index (`i`) as well as the row's values (`row`). With this approach, each row is a `Series` object.
 
 In this example, we are looping through just the first three rows, for simplicity:
 
 
-```
+```{python}
 for i, row in df.head(3).iterrows():
     print("------------")
     print("INDEX:", i)
@@ -50,7 +60,6 @@ for i, row in df.head(3).iterrows():
     print(row)
 ```
 
-With this approach, each row is a `Series` object.
 
 ## Sorting Rows
 
@@ -60,20 +69,23 @@ We can use the `DataFrame` object's [`sort_values` method](https://pandas.pydata
 By default, `sort_values` is not mutating, but as of the current version of `pandas`, we can use the `inplace` parameter to perform a mutating sort:
 
 
-```
-# can store back in same variable to overwrite:
-# prices_df = prices_df.sort_values(by="timestamp", ascending=True)
-
-# or alternatively use inplace=True parameter to perform a MUTATING operations
-prices_df.sort_values(by="timestamp", ascending=True, inplace=True)
-prices_df.head()
+```{python}
+df.sort_values(by="name", ascending=True, inplace=True)
+df.head()
 ```
 
-We can use the `ascending` parameter to reverse the sort order:
+We can use the `ascending` parameter to specify the sort order:
 
+```{python}
+df.sort_values(by="name", ascending=False, inplace=True)
+df.head()
 ```
-prices_df.sort_values(by="timestamp", ascending=False, inplace=True)
-prices_df.head()
+
+
+
+```{python}
+#|echo: false
+df.sort_values(by="id", ascending=True, inplace=True)
 ```
 
 
@@ -81,42 +93,45 @@ prices_df.head()
 
 We can filter a `DataFrame` to get only the rows that match some given condition.
 
-We first specify a "mask" condition that determines for each row, whether it meet the criteria or not (True vs False).
+We first specify a "mask" condition that determines for each row, whether it meet the criteria or not (True vs False). This mask is testing equality using the familiar `==` operator:
 
-```
+
+```{python}
 # this is the mask:
-prices_df["timestamp"] == "2021-10-15"
+df["department"] == "beverages"
 ```
 
-Filtering based on equality, using familiar `==` operator:
+Filtering based on equality, using the mask inside a square bracket reference:
 
-```
-prices_df[  prices_df["timestamp"] == "2021-10-15" ]
+```{python}
+df[  df["department"] == "beverages" ]
 ```
 
-Filtering based on numeric comparisons:
+This is an example of filtering based on equality, however there are other filter methods as well.
 
-```
-prices_df[  prices_df["timestamp"] >= "2021-10-12" ]
+Filtering based on numeric comparisons, using comparison operators:
+
+```{python}
+df[  df["price"] >= 10.00 ]
 ```
 
 Filtering based on values between lower and upper bound, using `between` method:
 
-```
-prices_df[  prices_df["timestamp"].between("2021-10-01", "2021-11-01") ]
+```{python}
+df[  df["price"].between(10.00, 20.00) ]
 ```
 
 
 Filtering based on inclusion, using `isin` method:
 
-```
-dates_of_interest = ["2021-10-15", "2021-10-14", "2021-10-12"]
+```{python}
+selected_departments = ["beverages", "babies"]
 
-prices_df[  prices_df["timestamp"].isin(dates_of_interest) ]
+df[  df["department"].isin(selected_departments) ]
 ```
 
 Filtering on substring match, using `str.contains` method:
 
-```
-prices_df[  prices_df["timestamp"].str.contains("2021-10-1") ]
+```{python}
+df[  df["name"].str.contains("Cookie") ]
 ```

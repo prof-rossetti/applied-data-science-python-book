@@ -88,6 +88,9 @@ book:
         - href: notes/pandas/index-operations.qmd
           text: "Index Operations"
 
+        - href: notes/pandas/exporting-dataframes.qmd
+          text: "Exporting Data Frames"
+
 
     - part: "Data Wrangling"
       chapters:

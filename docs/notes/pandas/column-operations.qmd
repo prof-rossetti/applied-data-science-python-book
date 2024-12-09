@@ -9,79 +9,82 @@ execute:
 
 # Column Operations
 
-In this chapter, we will focus on the columns in a `pandas` `DataFrame`.
 
-Specifically, we will practice accessing, renaming, and dropping existing columns, as well as creating new columns.
+In this chapter we will focus on column operations, including dropping, renaming, and mapping columns.
 
-For this we will use a familiar dataset of products:
+For these examples, we will use our familiar dataset of products:
 
 ```{python}
 from pandas import read_csv
 
-request_url = (
-    "https://raw.githubusercontent.com/prof-rossetti/intro-to-python" +
-    "/main/data/products.csv"
-)
+request_url = "https://raw.githubusercontent.com/prof-rossetti/intro-to-python/main/data/products.csv"
 df = read_csv(request_url)
-print(type(df))
 df.head()
 ```
 
 
+## Column as a `Series`
 
-### Column as `Series`
+Remember, when we access a given column of values, we are working with a `Series` object:
 
-When we access a given **column** of values, we have a `Series` object:
-
-```
-closing_prices = prices_df["adjusted_close"]
-
-print(type(closing_prices))
-print(closing_prices)
+```{python}
+names = df["name"]
+print(type(names))
+names.head()
 ```
 
-With a column as a `Series`, we can use list-like accessors, and we can convert it to a list of values as desired:
+With a `Series` object as a column, we can use list-like accessors to access one of the values based on its index value:
 
-```
-closing_prices[0]
-
-print(closing_prices.tolist())
+```{python}
+names[0]
 ```
 
+And we can convert the `Series` object to a normal list as desired:
 
+```{python}
+names.tolist()
+```
 
 ### Series Aggregations
 
-Consult the pandas Series docs for a comprehensive list of methods, including these aggregation methods:
+One of the cool things about `Series` objects is they know how to calculate their own aggregations.
 
+For example, minimum and maximum values:
 
+```{python}
+print("MIN PRICE:", df["price"].min())
+print("MAX PRICE:", df["price"].max())
 ```
-prices_df["adjusted_close"].min()
 
-prices_df["adjusted_close"].max()
+Mean and median values:
 
-prices_df["adjusted_close"].mean()
+```{python}
+print("MEAN PRICE:", df["price"].mean().round(2))
+print("MEDIAN PRICE:", df["price"].median())
+```
 
-prices_df["adjusted_close"].median()
+Percentiles, etc:
+
+```{python}
+print("25th PCT PRICE:", df["price"].quantile(.25).round(2))
+print("75th PCT PRICE:", df["price"].quantile(.75).round(2))
 ```
 
 
 ### Value Counts
 
-```
-prices_df["dividend_amount"].value_counts()
+The `value_counts` method shows us a count of the number of rows for each value in a given column:
+
+```{python}
+df["department"].value_counts()
 ```
 
 We can use the `normalize` parameter to display our counts as percentage of the total number of rows:
 
-```
-prices_df["dividend_amount"].value_counts(normalize=True)
+```{python}
+df["department"].value_counts(normalize=True)
 ```
 
-
-```
-prices_df["adjusted_close"].value_counts(normalize=True)
-```
 
 
 ## Renaming Columns
@@ -89,9 +92,9 @@ prices_df["adjusted_close"].value_counts(normalize=True)
 We can use the [`rename` method](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.rename.html) to rename columns. This is not mutating unless we use the `inplace` parameter.
 
 
-```
-df.rename(columns={"my_constant":"renamed_constant"}, inplace=True)
-df["renamed_constant"]
+```{python}
+df.rename(columns={"department": "dept"}, inplace=True)
+df.head()
 ```
 
 ## Dropping Columns
@@ -99,46 +102,56 @@ df["renamed_constant"]
 We can use the [`drop` method](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.drop.html) to remove columns from the dataset. This is not mutating unless we use the `inplace` parameter.
 
 
-```
-df.drop(columns=["renamed_constant"], inplace=True)
+```{python}
+df.drop(columns=["aisle"], inplace=True)
 df.head()
 ```
 
 ## Creating New Columns
 
-
 We can create a new column by specifying the name of that column and assigning a new value. For example, a column of constants:
 
-```
-df["name_copy"] = df["name"]
+```{python}
+df["inflation_factor"] = 1.5
 df.head()
 ```
 
-In practice, instead of creating a new column of constants, we will generally use an entire new column or list of values, and assign those to the new column (see "Mapping Columns" section below).
+In practice, instead of creating a new column of constants or placeholder values, we will generally create a new column of transformed values (see "Mapping Columns" section below).
+
 
 ## Mapping Columns
 
+We can transform the values in a given column, performing the transformation using either a constant scalar value, or another column of values.
 
-We can create mapped / transformed versions of the original columns, and store them back in the dataframe in a new column.
+When mapping using a single scalar value, for example multiplying by 1.5, each value in the original column gets multiplied by that same value:
 
-When we perform an operation with a scalar (single value), we perform that operation on each item in the `Series`, in this case, multiplying each value by 100:
-
-
-When we perform operations with two series, this performs an element-wise operation where the first values in each series are compared, then the second values, etc.
-
-This essentially allows us to access and compare multiple values from the same row:
-
-
-```
-# mapped Series of values:
-prices_df["close"] - prices_df["open"]
+```{python}
+df["inflated_price"] = (df["price"] * 1.5).round(2)
+df.head()
 ```
 
-```
-# storing back in a new column:
-prices_df["daily_change"] = prices_df["close"] - prices_df["open"]
+When mapping using two `Series` objects, this performs an element-wise operation where the first values in each series are compared, then the second values, etc.
 
-prices_df[["timestamp", "open", "close", "daily_change"]].head()
+
+```{python}
+df["inflated_price"] = (df["price"] * df["inflation_factor"]).round(2)
+df.head()
+```
+
+
+This essentially allows us to access and compare multiple values from the same row.
+
+
+
+
+### Applying a Mapping Dictionary
+
+If we want to change certain values, we can use the `map` method in conjunction with a dictionary mapping of new values:
+
+```{python}
+departments_map = {"pantry": "condiments"}
+df["dept"] = df["dept"].map(departments_map)
+df.head()
 ```
 
 ### Applying a Transformation Function
@@ -149,21 +162,20 @@ We define our own transformation function which accepts a single parameter repre
 
 Then we pass that transformation function as a parameter to the `apply` method:
 
-```
+```{python}
 # transformation function:
 
-def buy_sell_recommendation(adjusted_closing_price):
-    if adjusted_closing_price < 630:
-        return "BUY"
+def inflated_price(original_price):
+    if original_price < 5.00:
+        return original_price
     else:
-        return "SELL"
+        return original_price * 1.5
 
-assert buy_sell_recommendation(629.9) == "BUY"
-assert buy_sell_recommendation(630.1) == "SELL"
+assert inflated_price(3.00) == 3.00
+assert inflated_price(10.00) == 15.00
 ```
 
-```
-prices_df["recommendation"] = prices_df["adjusted_close"].apply(buy_sell_recommendation)
-
-prices_df[[ "adjusted_close", "recommendation"]].head()
+```{python}
+df["inflated_price"] = df["price"].apply(inflated_price)
+df.head()
 ```

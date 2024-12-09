@@ -1,0 +1,61 @@
+---
+format:
+  html:
+    code-fold: false #show
+jupyter: python3
+execute:
+  cache: true # re-render only when source changes
+---
+
+
+# Exporting Data Frames
+
+Setup:
+
+```{python}
+#|echo: false
+
+from pandas import read_csv
+
+request_url = "https://raw.githubusercontent.com/prof-rossetti/intro-to-python/main/data/products.csv"
+df = read_csv(request_url)
+df.head()
+```
+
+## To List of Dictionaries ("Records" Format)
+
+Converting a `DataFrame` to a list of dictionaries, using the `to_dict` method:
+```{python}
+products = df.to_dict("records")
+
+print(type(products))
+print(len(products))
+print(type(products[0]))
+products[0]
+```
+
+:::{.callout-note title="FYI"}
+Here, the "records" parameter value has nothing to do with any of the columns in the dataset, but rather the format in which to export the data. The "records" format refers to a list of dictionaries.
+:::
+
+
+## To CSV File
+
+We can use the [`to_csv` method](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html) to export a `DataFrame` to a CSV file.
+
+As a parameter, we specify the name of the CSV file that should be created (in this case, "products_copy.csv"), as well as whether or not to include the index column:
+
+```{python}
+df.to_csv("products_copy.csv", index=False)
+```
+
+In Colab, the file will be saved to the Colab Filesystem, where we have the ability to download the file to our local machine.
+
+
+```{python}
+#| echo: false
+
+import os
+# CLEAN UP:
+os.remove("products_copy.csv")
+```
