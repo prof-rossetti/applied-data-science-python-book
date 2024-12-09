@@ -127,7 +127,7 @@ When mapping using a single scalar value, for example multiplying by 1.5, each v
 
 ```{python}
 df["inflated_price"] = (df["price"] * 1.5).round(2)
-df.head()
+df[["id", "name", "price", "inflated_price"]].head()
 ```
 
 When mapping using two `Series` objects, this performs an element-wise operation where the first values in each series are compared, then the second values, etc.
@@ -135,7 +135,7 @@ When mapping using two `Series` objects, this performs an element-wise operation
 
 ```{python}
 df["inflated_price"] = (df["price"] * df["inflation_factor"]).round(2)
-df.head()
+df[["id", "name", "price", "inflation_factor", "inflated_price"]].head()
 ```
 
 
@@ -149,9 +149,20 @@ This essentially allows us to access and compare multiple values from the same r
 If we want to change certain values, we can use the `map` method in conjunction with a dictionary mapping of new values:
 
 ```{python}
-departments_map = {"pantry": "condiments"}
-df["dept"] = df["dept"].map(departments_map)
-df.head()
+departments_map = {
+  "beverages": "BV",
+  "frozen": "FR",
+  "pantry": "PN",
+  "snacks": "SN",
+  "personal care": "PC",
+  "dairy eggs": "DE",
+  "household": "HH",
+  "babies": "BB",
+  "meat seafood": "MS",
+  "dry goods pasta": "DG",
+}
+df["dept_abbrev"] = df["dept"].map(departments_map)
+df[["id", "name", "dept", "dept_abbrev"]].head()
 ```
 
 ### Applying a Transformation Function
@@ -166,6 +177,7 @@ Then we pass that transformation function as a parameter to the `apply` method:
 # transformation function:
 
 def inflated_price(original_price):
+    # only inflate if the price is greater than $5
     if original_price < 5.00:
         return original_price
     else:
@@ -176,6 +188,6 @@ assert inflated_price(10.00) == 15.00
 ```
 
 ```{python}
-df["inflated_price"] = df["price"].apply(inflated_price)
-df.head()
+df["inflated_price"] = df["price"].apply(inflated_price).round(2)
+df[["id", "name", "price", "inflated_price"]].head()
 ```

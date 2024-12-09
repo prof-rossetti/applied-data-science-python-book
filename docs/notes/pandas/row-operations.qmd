@@ -53,6 +53,7 @@ In this example, we are looping through just the first three rows, for simplicit
 
 
 ```{python}
+#for i, row in df.iterrows():
 for i, row in df.head(3).iterrows():
     print("------------")
     print("INDEX:", i)
