@@ -1,21 +1,22 @@
 
-# Working with DataFrames
+# Working with Data Frames
 
-To continue working with dataframes, lets consider this dataframe of products:
-
+To continue working with `DataFrame` objects, lets consider this dataset of grocery products:
 
 ```{python}
 from pandas import read_csv
 
-request_url = ("https://raw.githubusercontent.com/prof-rossetti/intro-to-python"
-                "/main/data/products.csv")
+request_url = (
+    "https://raw.githubusercontent.com/prof-rossetti/intro-to-python" +
+    "/main/data/products.csv"
+)
 df = read_csv(request_url)
 print(type(df))
 df.head()
 ```
 
 
-Now that we have obtained a dataframe, let's start working with it.
+Now that we have obtained a `DataFrame`, let's start working with it.
 
 ## Previewing the Data
 
@@ -50,7 +51,6 @@ df.shape
 
 :::{.callout-note}
 The `shape` is a tuple formatted as `(n_rows, n_cols)`, where the first value represents the number of rows, and the second represents the number of columns.
-
 :::
 
 ### Column Names
@@ -61,18 +61,18 @@ Identifying column names, using the `columns` property:
 print(df.columns)
 ```
 
+We get an list-like object called an `Index` back, but we can convert list-like objects like this in `pandas` using the `tolist` method:
+
 ```{python}
-# converting to list:
 print(df.columns.tolist())
 ```
 
 ## Saving Data to CSV File
 
-We can use the [`to_csv` method](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html) to export a `DataFrame` to a CSV file. When we do this, we specify as a parameter the name of the CSV file that should be created:
+We can use the [`to_csv` method](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html) to export a `DataFrame` to a CSV file. When we do this, we specify as a parameter the name of the CSV file that should be created (in this case, "products_copy.csv"):
 
 ```
-# run this cell then check the colab notebook filesystem, where you can see the file and download it
-prices_df.to_csv("prices_export.csv", index=False)
+df.to_csv("products_copy.csv", index=False)
 ```
 
 When saving files in Colab, the file will be saved to the Colab Filesystem, where we have the ability to download the file to our local machine.

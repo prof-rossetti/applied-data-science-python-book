@@ -76,10 +76,10 @@ book:
         - href: notes/pandas-getting-started/obtaining-dataframes.qmd
           text: "Obtaining Dataframes"
 
-#        - href: notes/pandas/getting-started/working-with-dataframes.qmd
-#          text: "Working with Dataframes"
-#
-#
+        - href: notes/pandas-getting-started/working-with-dataframes.qmd
+          text: "Working with Dataframes"
+
+
 #    - part: "Data Analysis w/ Pandas"
 #      chapters:
 #
