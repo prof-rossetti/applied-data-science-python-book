@@ -69,10 +69,28 @@ print(df.columns.tolist())
 
 ## Saving Data to CSV File
 
-We can use the [`to_csv` method](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html) to export a `DataFrame` to a CSV file. When we do this, we specify as a parameter the name of the CSV file that should be created (in this case, "products_copy.csv"):
+We can use the [`to_csv` method](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html) to export a `DataFrame` to a CSV file.
 
-```
+As a parameter, we specify the name of the CSV file that should be created (in this case, "products_copy.csv"), as well as whether or not to include the index column:
+
+```{python}
 df.to_csv("products_copy.csv", index=False)
 ```
 
-When saving files in Colab, the file will be saved to the Colab Filesystem, where we have the ability to download the file to our local machine.
+In Colab, the file will be saved to the Colab Filesystem, where we have the ability to download the file to our local machine.
+
+```{python}
+import os
+
+os.path.isfile("products_copy.csv")
+```
+
+
+
+```{python}
+#| echo: false
+
+import os
+# CLEAN UP:
+os.remove("products_copy.csv")
+```
