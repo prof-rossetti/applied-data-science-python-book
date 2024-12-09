@@ -9,25 +9,22 @@ execute:
 
 # Column Operations
 
+In this chapter, we will focus on the columns in a `pandas` `DataFrame`.
 
+Specifically, we will practice accessing, renaming, and dropping existing columns, as well as creating new columns.
 
-## Accessing Columns
+For this we will use a familiar dataset of products:
 
-We can access one or more columns worth of values, using a dictionary-like accessor.
+```{python}
+from pandas import read_csv
 
-When we access a single column (using a string column name), we get a pandas `Series` object:
-
-```
-df["name"]
-```
-
-When we access multiple columns (using a list of column names), we get a `DataFrame` object back:
-
-```
-closing_prices = prices_df[["timestamp", "adjusted_close", "volume"]]
-print(type(closing_prices)) #> DataFrame
-
-closing_prices.head()
+request_url = (
+    "https://raw.githubusercontent.com/prof-rossetti/intro-to-python" +
+    "/main/data/products.csv"
+)
+df = read_csv(request_url)
+print(type(df))
+df.head()
 ```
 
 

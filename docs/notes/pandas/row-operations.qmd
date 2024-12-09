@@ -10,36 +10,6 @@ execute:
 # Row Operations
 
 
-### Accessing Rows
-
-We use a list-like accessor approach to reference a given row, using the `iloc` method.
-
-When we access a single row, we get a `Series` object. In this example, we are accessing the first row, using an index value of `0`:
-
-```{python}
-first_row = df.iloc[0]
-print(type(first_row))
-first_row
-```
-
-
-
-When we access multiple rows, we get a `DataFrame` object. In this example, we are accessing the first three rows, using a slicing approach:
-
-```{python}
-first_rows = df.iloc[0:3]
-print(type(first_rows))
-first_rows
-```
-
-:::{.callout-note  title="FYI"}
-When we use index references like this with the `iloc` method, we are actually referencing the index value itself (which by default is an auto-incrementing integer starting at zero).
-
-But its possible for us the change the index (for example the date).
-
-So if you change your index later, you may need to use the new index values (dates instead of the default integers).
-:::
-
 
 
 
@@ -72,7 +42,7 @@ We can loop through each row using the [`iterrows` method](https://pandas.pydata
 In this example, we are looping through just the first three rows, for simplicity:
 
 
-```{python}
+```
 for i, row in df.head(3).iterrows():
     print("------------")
     print("INDEX:", i)

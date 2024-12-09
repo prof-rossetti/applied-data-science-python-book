@@ -10,21 +10,6 @@ execute:
 # Row Index Values
 
 
-## Accessing the Index
-
-Every `DataFrame` object has an index, which is a set of unique row identifiers.
-
-The default index is a set of auto-incrementing numbers starting at 0.
-
-```{python}
-df.index
-```
-
-It is possible to convert the `Index` object to a list for simplicity:
-
-```{python}
-df.index.tolist()
-```
 
 ## Resetting the Index
 
