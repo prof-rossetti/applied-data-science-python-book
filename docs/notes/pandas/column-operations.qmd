@@ -15,34 +15,38 @@ In this chapter we will focus on column operations, including dropping, renaming
 For these examples, we will use our familiar dataset of products:
 
 ```{python}
+#|code-fold: True
+
 from pandas import read_csv
 
 request_url = "https://raw.githubusercontent.com/prof-rossetti/intro-to-python/main/data/products.csv"
 df = read_csv(request_url)
+
 df.head()
 ```
 
 
-## Column as a `Series`
+## `Series` as a Column
 
 Remember, when we access a given column of values, we are working with a `Series` object:
 
 ```{python}
-names = df["name"]
-print(type(names))
-names.head()
+prices = df["price"]
+
+print(type(prices))
+prices.head()
 ```
 
 With a `Series` object as a column, we can use list-like accessors to access one of the values based on its index value:
 
 ```{python}
-names[0]
+prices[0]
 ```
 
 And we can convert the `Series` object to a normal list as desired:
 
 ```{python}
-names.tolist()
+prices.tolist()
 ```
 
 ### Series Aggregations

@@ -89,7 +89,7 @@ gdp_df
 
 ### The `pct_change` Method
 
-Even though we are able to perform this growth calculation ourselves, we should know the dataframe has a dedicated [`pct_change` method](https://pandas.pydata.org/docs/reference/api/pandas.Series.pct_change.html) for this purpose, which allows us to skip the intermediate steps:
+Even though we are able to perform this growth calculation ourselves, we should know the `DataFrame` has a dedicated [`pct_change` method](https://pandas.pydata.org/docs/reference/api/pandas.Series.pct_change.html) for this purpose, which allows us to skip the intermediate steps:
 
 ```{python}
 # equivalent, leveraging the pct_change method:
@@ -135,4 +135,4 @@ gdp_df["gdp_cumulative_growth"] = gdp_df["gdp_pct_change"].cumprod()
 gdp_df
 ```
 
-We can see how pandas makes it easy to calculate growth and cumulative growth.
+We can see how `pandas` makes it easy to calculate growth and cumulative growth in time-series data.

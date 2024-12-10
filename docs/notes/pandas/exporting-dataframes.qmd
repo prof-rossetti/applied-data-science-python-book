@@ -10,7 +10,7 @@ execute:
 
 # Exporting Data Frames
 
-Setup:
+For these examples we will use a familiar dataset of products:
 
 ```{python}
 #|echo: false
@@ -24,7 +24,7 @@ df.head()
 
 ## To List of Dictionaries ("Records" Format)
 
-Converting a `DataFrame` to a list of dictionaries, using the `to_dict` method:
+We can convert a `DataFrame` to a list of dictionaries, using the `to_dict` method:
 ```{python}
 products = df.to_dict("records")
 
@@ -43,7 +43,7 @@ Here, the "records" parameter value has nothing to do with any of the columns in
 
 We can use the [`to_csv` method](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_csv.html) to export a `DataFrame` to a CSV file.
 
-As a parameter, we specify the name of the CSV file that should be created (in this case, "products_copy.csv"), as well as whether or not to include the index column:
+As a parameter, we specify the name of the CSV file that should be created (in this case, "products_copy.csv"), as well as whether or not to include the index as a column in the resulting file:
 
 ```{python}
 df.to_csv("products_copy.csv", index=False)

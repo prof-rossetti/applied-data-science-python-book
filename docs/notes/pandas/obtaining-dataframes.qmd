@@ -138,11 +138,9 @@ In terms of CSV formatted data hosted on the Internet, we note the URL of the ho
 ```{python}
 from pandas import read_csv
 
-request_url = (
-    "https://raw.githubusercontent.com/prof-rossetti/intro-to-python" +
-    "/main/data/daily_adjusted_nflx.csv"
-)
+request_url = "https://raw.githubusercontent.com/prof-rossetti/intro-to-python/main/data/daily_adjusted_nflx.csv"
 df = read_csv(request_url)
+
 print(type(df))
 df.head()
 ```

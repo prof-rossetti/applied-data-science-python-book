@@ -6,10 +6,13 @@ Now that we know how to obtain a `DataFrame`, let's start working with one.
 For example, this dataset of grocery products:
 
 ```{python}
+#|code-fold: false
+
 from pandas import read_csv
 
 request_url = "https://raw.githubusercontent.com/prof-rossetti/intro-to-python/main/data/products.csv"
 df = read_csv(request_url)
+
 print(type(df))
 ```
 
@@ -37,7 +40,7 @@ By default, we see five rows, but we can customize the number of rows by passing
 
 ### Size and Shape
 
-Counting number of rows, by passing the `DataFrame` to the familiar `len` function:
+Counting number of rows, using the familiar `len` function:
 
 ```{python}
 len(df)
@@ -59,7 +62,9 @@ Accessing the `shape` is especially helpful when working with multidimensional d
 
 ### Column Names
 
-Identifying column names, using the `columns` property:
+Every `DataFrame` object has a list of column names which uniquely identify the columns in the dataset.
+
+Accessing the column names, using the `columns` property:
 
 ```{python}
 df.columns
@@ -77,13 +82,14 @@ The `tolist` method is used across the `numpy` and `pandas` packages to convert 
 
 ### Row Index Values
 
-Every `DataFrame` object has an index, which is a set of unique row identifiers.
+Every `DataFrame` object has an index, which is a set of unique row identifiers. The default index is a set of auto-incrementing numbers starting at 0, similar to the index values of a list.
 
-The default index is a set of auto-incrementing numbers starting at 0.
+Accessing the index values, using the `index` property:
 
 ```{python}
 df.index
 ```
+
 
 When we reference the index, we get back a list-like object, which we can convert to a simple list using the `tolist` method:
 
@@ -91,6 +97,7 @@ When we reference the index, we get back a list-like object, which we can conver
 df.index.tolist()
 ```
 
+It is possible to update the index (see [Index Operations](./index-operations.qmd)).
 
 ## Accessing Columns
 
@@ -100,6 +107,7 @@ To access a single column, we pass the string column name, and we get a pandas `
 
 ```{python}
 names = df["name"]
+
 print(type(names))
 names.head()
 ```
@@ -108,9 +116,11 @@ To access multiple columns, we pass a list of string column names, and we get a 
 
 ```{python}
 names_and_prices = df[["name", "price"]]
+
 print(type(names_and_prices))
 names_and_prices.head()
 ```
+
 ## Accessing Rows
 
 To reference a given row, we use a list-like accessor in conjunction with the `iloc` method.
@@ -119,6 +129,7 @@ In this example, we are accessing the first row, using an index value of `0`. Wh
 
 ```{python}
 first_row = df.iloc[0]
+
 print(type(first_row))
 first_row
 ```
@@ -127,6 +138,7 @@ In this example, we are accessing the first three rows, using a list slicing app
 
 ```{python}
 first_three = df.iloc[0:3]
+
 print(type(first_three))
 first_three
 ```

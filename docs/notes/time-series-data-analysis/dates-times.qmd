@@ -9,43 +9,32 @@ execute:
 
 # Dates and Times in `pandas`
 
+For these examples, we will use a time-series dataset of stock prices:
 
-When we are working with date and time related values, it is possible to write our own conversion functions, like the examples below:
 
-```
-# transformation function:
+```{python}
+#|code-fold: True
 
-def parse_year_month(my_date_str):
-    """Param my_date_str (str) : a date string like '2021-10-18'."""
-    # take the first seven characters, like "2021-10"
-    return my_date_str[0:7]
+from pandas import read_csv
 
-assert parse_year_month("2050-01-30") == "2050-01"
-```
-
-```
-prices_df["year_month"] = prices_df["timestamp"].apply(parse_year_month)
-
-prices_df[["timestamp", "year_month"]]
+request_url = "https://raw.githubusercontent.com/prof-rossetti/intro-to-python/main/data/daily_adjusted_nflx.csv"
+df = read_csv(request_url)
+df.drop(columns=["split_coefficient", "dividend_amount"], inplace=True)
+df.head()
 ```
 
-```
-def day_of_week(day_index):
-    weekdays_map = {0: "Monday", 1: "Tuesday", 2: "Wednesday", 3: "Thursday", 4: "Friday", 5: "Saturday", 6: "Sunday"}
-    return weekdays_map[day_index]
 
-prices_df["day_of_week"] = prices_df["weekday"].apply(day_of_week)
-prices_df[["timestamp", "timestamp_dt", "year_month", "year", "month", "weekday", "day_of_week"]]
-```
 
-# The `pandas.to_datetime` Function
 
-However, for date and time specific values, it can be helpful to use the [`to_datetime` function](https://pandas.pydata.org/docs/reference/api/pandas.to_datetime.html) to make life easier.
 
-After passing a column of date strings into the `to_datetime` function, we obtain a datetime-aware column that respects datetime operations.
+When we are working with a column of strings representing datetime values,
+it is helpful to use the [`to_datetime` function](https://pandas.pydata.org/docs/reference/api/pandas.to_datetime.html) to convert these string values into datetime-aware column that respects datetime operations.
 
-```
-print(type(prices_df["timestamp"][0]))
+
+
+```{python}
+first_date = df["timestamp"][0]
+print(type(first_date))
 ```
 
 ```
