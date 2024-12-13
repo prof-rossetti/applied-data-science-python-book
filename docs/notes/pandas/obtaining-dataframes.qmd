@@ -45,9 +45,6 @@ csv_filepath = "sample_data/california_housing_train.csv"
 
 df = read_csv(csv_filepath)
 print(type(df))
-```
-
-```{python}
 df.head()
 ```
 
@@ -98,6 +95,8 @@ print(type(df))
 df.head()
 ```
 
+In this case we wind up with a row for each item in the outer list, and a column for each value in the inner list.
+
 Because the lists don't have column names, we supply those separately, using the `columns` parameter.
 
 ### List of Dictionaries
@@ -125,8 +124,7 @@ print(type(df))
 df.head()
 ```
 
-
-In this case, each of the dictionaries becomes its own row, with a column for each of the keys.
+In this case we wind up with a row for each item in the list, and a column for each value in the dictionary, where the dictionary keys become the column names.
 
 ### Dictionary of Lists
 
@@ -147,4 +145,5 @@ print(type(df))
 df.head()
 ```
 
-In this case, each of the keys becomes its own column containing the corresponding list of values.
+
+In this case, the dictionary's keys become column names that describe the corresponding list of values in that column.
