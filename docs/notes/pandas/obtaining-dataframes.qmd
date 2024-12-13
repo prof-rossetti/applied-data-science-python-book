@@ -9,22 +9,79 @@ execute:
 
 # Obtaining Data Frames
 
-The `pandas` package provides a datatype called the `DataFrame`, which represents tabular, spreadsheet-style data with rows and columns.
+The `pandas` package provides a super-charged datatype called the `DataFrame`, which represents tabular, spreadsheet-style data with rows and columns.
 
-We can obtain a `DataFrame` object by constructing one from some data, or by reading a CSV file.
+We can obtain a `DataFrame` object by either reading a CSV file, or by constructing one ourselves.
 
-## Constructing Dataframes
 
-If we have some data in an eligible format (list of lists, list of dictionaries, dictionary of lists), we can pass it to the [`DataFrame` class](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) constructor to obtain a `DataFrame` object.
+## Reading CSV Files
+
+If we have data files in tabular format (for example in CSV format, or XLS / XLSX format), we can use the [`read_csv`](https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html) function, or [`read_excel`](https://pandas.pydata.org/docs/reference/api/pandas.read_excel.html) function, respectively, to convert that data into a `DataFrame` object. Here we will focus primarily on CSV files.
+
+We can use these functions to read files saved locally, as well as hosted on the Internet.
+
+### Local Files
+
+In terms of reading local files, the file needs to be in the same location as the Python code.
+
+For example, in the [Colab Filesystem](https://prof-rossetti.github.io/intro-software-dev-python-book/notes/dev-tools/google-colab/filesystem.html), there is a CSV file called "california_housing_train.csv" in the "sample_data" directory:
+
+![Example CSV file in the Colab Filesystem](../../images/colab-sample-data-file.png){height=350}
+
+```{python}
+#| echo: False
+
+import os
+os.chdir("../../data/colab")
+```
+
+To read this file, we pass the relative filepath as a parameter to the `read_csv` function:
+
+
+```{python}
+from pandas import read_csv
+
+csv_filepath = "sample_data/california_housing_train.csv"
+
+df = read_csv(csv_filepath)
+print(type(df))
+```
+
+```{python}
+df.head()
+```
+
+
+### Hosted Files
+
+In terms of CSV formatted data hosted on the Internet, we note the URL of the hosted file, and pass it to the `read_csv` function:
+
+```{python}
+from pandas import read_csv
+
+request_url = "https://raw.githubusercontent.com/prof-rossetti/intro-to-python/main/data/daily_adjusted_nflx.csv"
+
+df = read_csv(request_url)
+print(type(df))
+df.head()
+```
+
+
+
+## Constructing Data Frames
+
+We can also construct our own `DataFrame` objects.
+
+If we have Python data in an eligible format (list of lists, list of dictionaries, dictionary of lists), we can pass that data to the [`DataFrame` class constructor](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) to obtain a `DataFrame` object back.
 
 ### List of Lists
 
-Constructing a `DataFrame` from a list of lists:
+Here, we are constructing a `DataFrame` from a list of lists:
 
 ```{python}
 from pandas import DataFrame
 
-# lesser used format (list of lists)
+# list of lists:
 prices = [
     ["2020-10-01", 100.00],
     ["2020-10-02", 101.01],
@@ -36,7 +93,7 @@ prices = [
     ["2020-10-08", 162.62],
 ]
 
-df = DataFrame(prices, columns=["date","stock_price_usd"])
+df = DataFrame(prices, columns=["date", "stock_price_usd"])
 print(type(df))
 df.head()
 ```
@@ -45,13 +102,13 @@ Because the lists don't have column names, we supply those separately, using the
 
 ### List of Dictionaries
 
-Constructing a `DataFrame` from a list of dictionaries (i.e. "records" format):
+Here, we are constructing a `DataFrame` from a list of dictionaries (i.e. "records" format), which is a very common and usable format:
 
 
 ```{python}
 from pandas import DataFrame
 
-# common "records" format (list of dicts)
+# "records" format (list of dicts):
 prices = [
     {"date": "2020-10-01", "stock_price_usd": 100.00},
     {"date": "2020-10-02", "stock_price_usd": 101.01},
@@ -68,79 +125,26 @@ print(type(df))
 df.head()
 ```
 
-In this case, each dictionary in the list has certain keys, which will show up as the corresponding columns in the `DataFrame`.
+
+In this case, each of the dictionaries becomes its own row, with a column for each of the keys.
 
 ### Dictionary of Lists
 
-Constructing a `DataFrame` from a dictionary of lists:
+In this final example, we are constructing a `DataFrame` from a dictionary of lists:
 
 
 ```{python}
 from pandas import DataFrame
 
-# lesser used format (dict of lists)
+# dict of lists:
 prices = {
-    "date": [
-        "2020-10-01", "2020-10-02", "2020-10-03", "2020-10-04",
-        "2020-10-05", "2020-10-06", "2020-10-07", "2020-10-08"
-    ],
-    "stock_price_usd": [
-        100.00, 101.01, 120.20, 107.07, 142.42, 135.35, 160.60, 162.62
-    ]
+    "date": ["2020-10-01", "2020-10-02", "2020-10-03", "2020-10-04","2020-10-05", "2020-10-06", "2020-10-07", "2020-10-08"],
+    "stock_price_usd": [100.00, 101.01, 120.20, 107.07, 142.42, 135.35, 160.60, 162.62]
 }
+
 df = DataFrame(prices)
 print(type(df))
 df.head()
 ```
 
-The dictionary's keys correspond with the column names, and the dictionary's values correspond with the values for each column.
-
-## Reading Data Files
-
-If we have data files in tabular format (for example in CSV format, or XLS / XLSX format), we can use the [`read_csv`](https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html) function, or [`read_excel`](https://pandas.pydata.org/docs/reference/api/pandas.read_excel.html) function, respectively, to convert that data into a `DataFrame` object. Here we will focus primarily on CSV files.
-
-We can use these functions to read files saved locally, as well as hosted on the Internet.
-
-### Local Files
-
-In terms of reading local files, the file needs to be in the same location as the Python code.
-
-For example, in the Colab Filesystem, there is a CSV file in the "sample_data" directory called "california_housing_train.csv".
-
-![Example CSV file in the Colab Filesystem](../../images/colab-sample-data-file.png){height=350}
-
-```{python}
-#| echo: False
-
-import os
-os.chdir("../../data/colab")
-```
-
-To read this file (or any others we may upload to the [Colab Filesystem](https://prof-rossetti.github.io/intro-software-dev-python-book/notes/dev-tools/google-colab/filesystem.html), we pass the filepath to the `read_csv` function:
-
-
-```{python}
-from pandas import read_csv
-
-csv_filepath = "sample_data/california_housing_test.csv"
-df = read_csv(csv_filepath)
-print(type(df))
-df.head()
-```
-
-
-
-
-### Hosted Files
-
-In terms of CSV formatted data hosted on the Internet, we note the URL of the hosted file, and pass it to the `read_csv` function:
-
-```{python}
-from pandas import read_csv
-
-request_url = "https://raw.githubusercontent.com/prof-rossetti/intro-to-python/main/data/daily_adjusted_nflx.csv"
-df = read_csv(request_url)
-
-print(type(df))
-df.head()
-```
+In this case, each of the keys becomes its own column containing the corresponding list of values.

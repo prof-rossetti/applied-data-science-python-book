@@ -10,18 +10,22 @@
 -->
 
 
-Tabular data is widely used in finance for tasks like portfolio analysis, risk assessment, and market trend analysis, as it allows for efficient storage, querying, and manipulation.
+Tabular data is widely used in finance for tasks like portfolio analysis, risk assessment, and market trend analysis.
 
-The structured nature of tabular data facilitates easy data analysis, data visualization, and statistical analysis, including machine learning.
+The structured nature of tabular data allows for efficient storage, querying, and manipulation. This makes tabular data a good choice when performing data analysis, data visualization, and statistical analysis, including machine learning.
 
-Tabular data is compatible with the CSV file format, spreadsheets, and relational databases, further enhancing its versatility and accessibility.
+Tabular data is also compatible with the CSV file format, spreadsheet software, and relational databases, further enhancing its versatility and accessibility.
 
 
 
-## Processing Tabular Data in Python
+## Processing Tabular Data in Python with `pandas`
 
 In Python, the [`pandas` package](https://pypi.org/project/pandas/) makes it easy to work with CSV formatted (i.e. \"tabular\") data.
 
-The `pandas` package provides two new datatypes of interest, called the `DataFrame` and the `Series`. The `DataFrame` datatype represents tabular data (with rows and columns). Whereas the pandas `Series` datatype represents either a single row, or single column in the dataset.
+The `pandas` package provides two new super-charged datatypes of interest: the `DataFrame` and the `Series`.
+
+  + The [`DataFrame` datatype](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) represents the entire tabular data structure, a "matrix" of rows and columns.
+
+  + The [`Series` datatype](https://pandas.pydata.org/docs/reference/api/pandas.Series.html) represents either a single row, or a single column in the dataset.
 
 Let's explore some common and practical ways of working with these objects.

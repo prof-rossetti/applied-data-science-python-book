@@ -98,7 +98,8 @@ def fetch_crypto_data():
     request_url = (
         "https://raw.githubusercontent.com/"
         "prof-rossetti/applied-data-science-python-book/"
-        "main/docs/data/currency_daily_btc_usd_20141123.csv"
+        "main/docs/data/currency-daily-BTC-USD-20141123.csv"
+        #"main/docs/data/currency_daily_btc_usd_20141123.csv"
     )
     df = read_csv(request_url)
     df.index = to_datetime(df["timestamp"])

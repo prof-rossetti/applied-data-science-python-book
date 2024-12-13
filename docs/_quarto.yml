@@ -169,7 +169,7 @@ format:
   html:
     # https://quarto.org/docs/output-formats/html-themes.html
     # https://bootswatch.com/
-    theme: minty
+    theme: flatly #journal #minty
       #light: default #flatly
       #dark: darkly
     #css: styles/my-style.css
