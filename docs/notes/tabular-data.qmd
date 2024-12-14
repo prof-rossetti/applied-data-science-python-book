@@ -22,10 +22,6 @@ Tabular data is also compatible with the CSV file format, spreadsheet software, 
 
 In Python, the [`pandas` package](https://pypi.org/project/pandas/) makes it easy to work with CSV formatted (i.e. \"tabular\") data.
 
-The `pandas` package provides two new super-charged datatypes of interest: the `DataFrame` and the `Series`.
-
-  + The [`DataFrame` datatype](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) represents the entire tabular data structure, a "matrix" of rows and columns.
-
-  + The [`Series` datatype](https://pandas.pydata.org/docs/reference/api/pandas.Series.html) represents either a single row, or a single column in the dataset.
+The `pandas` package provides two new super-charged datatypes of interest: the `DataFrame` and the `Series`. The [`DataFrame` datatype](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) represents the entire tabular data structure, a "matrix" of rows and columns. Whereas the [`Series` datatype](https://pandas.pydata.org/docs/reference/api/pandas.Series.html) represents either a single row, or a single column in the dataset.
 
 Let's explore some common and practical ways of working with these objects.

@@ -124,7 +124,7 @@ print(type(df))
 df.head()
 ```
 
-In this case we wind up with a row for each item in the list, and a column for each value in the dictionary, where the dictionary keys become the column names.
+In this case we wind up with a row for each dictionary in the list, and the dictionary keys become the column names.
 
 ### Dictionary of Lists
 
