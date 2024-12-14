@@ -1,9 +1,9 @@
 
 # Working with Data Frames
 
-Now that we know how to obtain a `DataFrame`, let's start working with one.
+Now that we know how to obtain a `DataFrame` object, let's start working with one.
 
-For example, this dataset of grocery products:
+For example, this dataset of grocery products, which is hosted online:
 
 ```{python}
 #|code-fold: false
@@ -12,10 +12,15 @@ from pandas import read_csv
 
 request_url = "https://raw.githubusercontent.com/prof-rossetti/intro-to-python/main/data/products.csv"
 df = read_csv(request_url)
-
 print(type(df))
+df.head()
 ```
 
+:::{.callout-note title="Data Source"}
+This dataset was adapted from open source data released by Instacart in 2017 (which seems to have since been deleted).
+
+"The Instacart Online Grocery Shopping Dataset 2017", accessed from <https://www.instacart.com/datasets/grocery-shopping-2017> in 2017.
+:::
 
 
 ## Previewing the Data
@@ -40,14 +45,14 @@ By default, we see five rows, but we can customize the number of rows by passing
 
 ### Size and Shape
 
-Counting number of rows, using the familiar `len` function:
+It's easy to count the number of rows, using the familiar `len` function:
 
 ```{python}
 len(df)
 ```
 
 
-Alternatively we can access the `shape` property, which tells us the dataset size in terms of number of rows and columns:
+Alternatively, we can access the `shape` property, which tells us the dataset size in terms of number of rows and columns:
 
 ```{python}
 df.shape
@@ -56,9 +61,6 @@ df.shape
 :::{.callout-note}
 The `shape` is a tuple formatted as `(n_rows, n_cols)`, where the first value represents the number of rows, and the second represents the number of columns.
 :::
-
-Accessing the `shape` is especially helpful when working with multidimensional data (i.e. data in three or more dimensions).
-
 
 ### Column Names
 
