@@ -31,6 +31,13 @@ Install package dependencies:
 pip install -r docs/requirements.txt
 ```
 
+Add ".env" file to root directory of the repo, and add AlphaVantage API Key:
+
+```sh
+# this is the ".env file:
+ALPHAVANTAGE_API_KEY="_______"
+```
+
 ## Building
 
 

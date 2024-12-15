@@ -10,11 +10,318 @@ execute:
 # Joining and Merging
 
 
-![Join strategies: inner vs outer](../../images/joins-inner-outer.jpeg)
+In practice, there are times when it is valuable to integrate multiple datasets into a single unified dataset, for further analysis.
+
+This allows us to gain deeper insights and a more comprehensive understanding.
+
+For example, a financial analyst may merge transaction-level data with customer demographic information to identify spending patterns, or combine market price data with macroeconomic indicators to better model asset performance.
+
+If you've used the `VLOOKUP` function in spreadsheet software, or the `JOIN` clause in SQL, you've already merged datasets. Let's explore how to merge datasets in Python.
+
+## Merging Data Frames
+
+We can use the [`merge` function](https://pandas.pydata.org/docs/reference/api/pandas.merge.html) from `pandas` to join two datasets together. The `merge` function accepts two `DataFrame` objects as initial parameters, as well as a `how` parameter to indicate the join strategy (see "Join Strategies" section below). There are additional parameters to denote which columns or indices to join on.
+
+```python
+from pandas import merge
+
+merged_df = merge(df1, df2, how="inner", on="id")
+#merged_df = merge(merged_df, df3, how="inner", on="id")
+#merged_df = merge(merged_df, df4, how="inner", on="id")
+```
+
+:::{.callout-note}
+FYI: the [merge method](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.merge.html) of the `DataFrame` provides an alternative object-oriented interface:
+
+```python
+merged_df = df1.merge(df2, how="inner", on="id")
+#merged_df = merged_df.merge(df3, how="inner", on="id")
+#merged_df = merged_df.merge(df4, how="inner", on="id")
+```
+
+In this approach, we invoke the `merge` method on one of the `DataFrame` objects, and pass the other as a parameter.
+:::
+
+## Join Strategies
+
+When we read the documentation for these `merge` methods, we see there are many options for the `how` parameter, including "inner", left", "right", and "outer".
+
+To know which value to choose in a particular situation, let's discuss different these [join strategies](https://www.w3schools.com/sql/sql_join.asp) in more detail.
+
+![Join Strategies: inner vs outer joins](../../images/joins-inner-outer.jpeg){.img-fluid style="max-height:450;"}
+
+  + **Inner Join**: Keeps only rows where the join value is matching across both datasets.
+  + **Left Outer Join**: Keeps all rows from the left dataset, and matches data from the right where available.
+  + **Right Outer Join**: Keeps all rows from the right dataset and matches data from the left where available.
+  + **Full Outer Join**: Keeps all rows and columns from both datasets. Values will be null if there isn't a match.
+
+## Example - Customers and Transactions
+
+To further illustrate the different join strategies, let's consider the following two datasets about customers and transactions:
+
+```{python}
+from pandas import DataFrame
+
+customers = DataFrame({
+    'CustomerID': [1, 2, 3, 4],
+    'Name': ["Aisha", "Elena", "Carlos", "Kwame"],
+    'Age': [25, 34, 29, 42],
+    'City': ["New York", "Chicago", "New York", "Houston"]
+})
+customers.head()
+```
+
+```{python}
+transactions = DataFrame({
+    'CustomerID': [1, 2, 1, 5],
+    'TransactionID': [1001, 1002, 1003, 1004],
+    'Amount': [200.50, 150.75, 300.00, 400.25],
+    'Date': ['2024-01-15', '2024-01-16', '2024-01-17', '2024-01-18']
+})
+transactions.head()
+```
+
+:::{.callout-note}
+It looks like there is a "one to many" relationship between the customers and their transactions, where a single customer may have multiple transactions.
+:::
+
+These datasets share a "CustomerID" column, so it will be possible to join the datasets on the basis of common values in this column.
+
+```{python}
+print(customers["CustomerID"].unique().tolist())
+print(transactions["CustomerID"].unique().tolist())
+```
+
+
+There seem to be some values in the "CustomerId" column that are common across both datasets (i.e. customers #1 and #2). However there isn't a perfect overlap, as we see customer #5 is not present in the customers dataset, and customers #3 and #4 are not present in the transactions dataset.
+
+Let's join this data using different strategies to
+
+### Inner Join
+
+Performing an inner join:
+
+```{python}
+from pandas import merge
+
+merge(customers, transactions, how="inner", on="CustomerID")
+```
+
+We see only the rows common across both datasets. We see columns from both datasets, without any resulting null values.
+
+### Left Outer Join
+
+Performing a left join:
+
+```{python}
+merge(customers, transactions, how="left", on="CustomerID")
+```
+
+We see the left dataset, with additional columns from the right. The values from the right are null if there wasn't a match.
+
+### Right Outer Join
+
+Performing a right join:
+
+```{python}
+merge(customers, transactions, how="right", on="CustomerID")
+```
+
+We see the right dataset, with additional columns from the left. The values from the left are null if there wasn't a match.
+
+### Full Outer Join
+
+Performing a full outer join:
+
+```{python}
+merge(customers, transactions, how="outer", on="CustomerID")
+```
+
+We see all the rows and columns from both datasets. The values from the left and right are null if there wasn't a match.
+
+## Example - Treasury Yield Curves
+
+Let's practice merging different datasets together, in order to perform some real world financial analysis about inverted yield curves.
+
+In this example, we'll start with two different datasets of treasury yields from the AlphaVantage API, one with a short-term (three month) maturity, and the other with a long-term (ten year) maturity.
+
+
+After we fetch the data, you'll see of these datasets has a timestamp column, which represents the values using a monthly frequency.
+
+
+Since we are fetching these datasets from the AlphaVantage API, we'll supply the API key as a notebook secret:
+
+```python
+#| code-fold: show
+
+from google.colab import userdata
+
+
+API_KEY = userdata.get("ALPHAVANTAGE_API_KEY")
+```
+
+```{python}
+#| echo: false
+
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+API_KEY = os.getenv("ALPHAVANTAGE_API_KEY", default="abc123")
+```
+
+### Dataset A (10-yr Maturity)
+
+Fetching a dataset of treasury yields maturing in ten years:
+
+```{python}
+#| code-fold: show
+
+from pandas import read_csv
+
+request_url = f"https://www.alphavantage.co/query?function=TREASURY_YIELD&interval=monthly&maturity=10year&apikey={API_KEY}&datatype=csv"
+
+df_10y = read_csv(request_url)
+df_10y.index = df_10y["timestamp"]
+df_10y.drop(columns=["timestamp"], inplace=True)
+df_10y.rename(columns={"value": "10yr"}, inplace=True)
+df_10y.head()
+```
 
 
 ```{python}
-#from pandas import read_csv, to_datetime
+print("TIME RANGE (10 YEAR MATURITY):")
+print(df_10y.index.min())
+print(df_10y.index.max())
+```
+
+We see this dataset structure is a row per month, from 1953 through the present.
 
 
+
+### Dataset B (3-mo Maturity)
+
+Fetching a dataset of treasury yields maturing in three months:
+
+```{python}
+#| code-fold: show
+
+request_url = f"https://www.alphavantage.co/query?function=TREASURY_YIELD&interval=monthly&maturity=3month&apikey={API_KEY}&datatype=csv"
+
+df_3mo = read_csv(request_url)
+df_3mo.index = df_3mo["timestamp"]
+df_3mo.drop(columns=["timestamp"], inplace=True)
+df_3mo.rename(columns={"value": "3mo"}, inplace=True)
+df_3mo.head()
+```
+
+```{python}
+print("TIME RANGE (3 MONTH MATURITY):")
+print(df_3mo.index.min())
+print(df_3mo.index.max())
+```
+
+
+We see this dataset structure is a row per month, from 1981 through the present.
+
+
+
+
+## Merging Datasets
+
+Let's merge these datasets together, on the basis of their common values (in this case the "timestamp" index common across both datasets). We will use a precise merge on matching values, instead of making assumptions about the row frequency and order of source datasets. In this way, the merge operation is similar to a `VLOOKUP` operation in spreadsheet software.
+
+In order to merge the datasets, we'll use the [merge method](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.merge.html). We start by referencing one of the `DataFrame` objects we want to merge, and then invoke the `merge` method on it. We pass as a parameter to the `merge` method another `DataFrame` object we want to merge, and also specify the join strategy using the `how` parameter to specify whether we want an "inner" vs "left" vs "right" join. We also specify the names of the columns in both datasets on which to join (in this case using `left_index` and `right_index` to join on index values).
+
+NOTE: We can merge any number of additional `DataFrame` objects in the same way, until we arrive at the final merged dataset.
+
+
+```{python}
+df = df_10y.merge(df_3mo, how="inner", left_index=True, right_index=True)
+#df = df.merge(another_df, how="inner", left_index=True, right_index=True)
+#df = df.merge(yet_another, how="inner", left_index=True, right_index=True)
+df.head()
+```
+
+
+In this case we specify we want to join on the index from both datasets. Here we are using an "inner" join strategy, to keep only the rows that have matching timestamp values across both datasets.
+
+
+```{python}
+print("TIME RANGE (MERGED DATASET):")
+print(df.index.min())
+print(df.index.max())
+```
+
+Notice, the resulting merged dataset starts in 1981, because we used an "inner" join, and because that is the earliest month shared across ALL source datasets (as constrained by the 3-mo maturity dataset).
+
+## Analyzing Merged Data
+
+The reason why we went through the trouble of merging the data is so we can compare the two datasets more easily, for example to identify which periods had an "inverted yield curve" where the short-term yield was greater than the long-term yield.
+
+We can identify periods of inversion visually by plotting both datasets on the same graph:
+
+```{python}
+import plotly.express as px
+
+px.line(df, y=["10yr", "3mo"], height=450, title="US Treasury Yields",
+    labels={"timestamp": "Date", "value": "Yield (%)", "variable": "Maturity"},
+    color_discrete_map={"10yr": "steelblue", "3mo": "orange"},
+)
+```
+
+Alternative plotting with shaded regions of inversion:
+
+```{python}
+#| code-fold: true
+
+import plotly.graph_objects as go
+
+fig = go.Figure()
+
+fig.add_trace(
+  go.Scatter(x=df.index, y=df["10yr"], name="10yr", mode="lines", line=dict(color="steelblue"))
+)
+
+fig.add_trace(
+  go.Scatter(x=df.index, y=df["3mo"], name="3mo", mode="lines", line=dict(color="orange"))
+)
+
+condition = df["3mo"] > df["10yr"]
+shaded_regions = []
+start = None
+
+for i in range(len(condition)):
+    if condition.iloc[i] and start is None:
+        start = df.index[i]
+    elif not condition.iloc[i] and start is not None:
+        shaded_regions.append((start, df.index[i]))
+        start = None
+
+# If the last region is still open
+if start is not None:
+    shaded_regions.append((start, df.index[-1]))
+
+# Add shaded regions to the plot
+for start, end in shaded_regions:
+    fig.add_shape(
+        type="rect",
+        x0=start, x1=end,
+        y0=min(df["3mo"].min(), df["10yr"].min()),
+        y1=max(df["3mo"].max(), df["10yr"].max()),
+        fillcolor="rgba(255, 165, 0, 0.3)",  # Semi-transparent orange
+        line_width=0,
+    )
+
+fig.update_layout(
+    title="US Treasury Yields",
+    xaxis_title="Date",
+    yaxis_title="Yield (%)",
+    legend_title="Maturity",
+    height=450
+    #template="plotly_white"
+)
+
+fig.show()
 ```

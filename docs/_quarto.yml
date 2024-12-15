@@ -115,7 +115,7 @@ book:
         - href: notes/data-wrangling/grouping-pivoting.qmd
           text: "Grouping and Pivoting"
 
-        - href: notes/data-wrangling/joining-merging-old.ipynb
+        - href: notes/data-wrangling/joining-merging.qmd
           text: "Joining and Merging"
 
 

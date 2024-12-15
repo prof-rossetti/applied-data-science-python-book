@@ -28,3 +28,6 @@ scipy
 pandas_datareader
 yahooquery
 yfinance
+
+
+python-dotenv
