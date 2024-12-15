@@ -18,7 +18,7 @@ Every `DataFrame` has a default index values, but we can set our own.
 
 We might do this in practice when one of the columns in the dataset contains values which uniquely identify each row in the dataset.
 
-For example, for this products dataset has an "id" column that uniquely represents each row, we could set that column as the index:
+For example, this products dataset has an "id" column that uniquely represents each row, so we could set that column as the index:
 
 ```{python}
 from pandas import read_csv
@@ -28,7 +28,7 @@ df = read_csv(request_url)
 df.head()
 ```
 
-Setting the index:
+Setting the "id" column as the index:
 
 ```{python}
 # set the index and name it:
@@ -70,6 +70,8 @@ ticker = Ticker(symbols)
 df = ticker.history(start="2024-01-01", end="2024-01-05", adj_ohlc=True)
 df
 ```
+
+We see the row index is a gnarly `MultiIndex` consisting of two values, representing both the "symbol" and the "date":
 
 ```{python}
 df.index

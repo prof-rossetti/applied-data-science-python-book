@@ -12,16 +12,15 @@ execute:
 
 In this chapter we will focus on column operations, including dropping, renaming, and mapping columns.
 
-For these examples, we will use our familiar dataset of products:
+For these examples, we will use a familiar dataset of products:
 
 ```{python}
-#|code-fold: True
+#|code-fold: show
 
 from pandas import read_csv
 
 request_url = "https://raw.githubusercontent.com/prof-rossetti/intro-to-python/main/data/products.csv"
 df = read_csv(request_url)
-
 df.head()
 ```
 
@@ -32,12 +31,11 @@ Remember, when we access a given column of values, we are working with a `Series
 
 ```{python}
 prices = df["price"]
-
 print(type(prices))
-prices.head()
+prices
 ```
 
-With a `Series` object as a column, we can use list-like accessors to access one of the values based on its index value:
+With a `Series` object as a column, we can use list-like accessors to access one of the values based on its row index value:
 
 ```{python}
 prices[0]
@@ -46,7 +44,7 @@ prices[0]
 And we can convert the `Series` object to a normal list as desired:
 
 ```{python}
-prices.tolist()
+print(prices.tolist())
 ```
 
 ### Series Aggregations
@@ -64,14 +62,14 @@ Mean and median values:
 
 ```{python}
 print("MEAN PRICE:", df["price"].mean().round(2))
-print("MEDIAN PRICE:", df["price"].median())
+print("MEDIAN PRICE:", df["price"].median().round(2))
 ```
 
 Percentiles, etc:
 
 ```{python}
-print("25th PCT PRICE:", df["price"].quantile(.25).round(2))
-print("75th PCT PRICE:", df["price"].quantile(.75).round(2))
+print("25TH PCT PRICE:", df["price"].quantile(.25).round(2))
+print("75TH PCT PRICE:", df["price"].quantile(.75).round(2))
 ```
 
 
@@ -117,6 +115,7 @@ We can create a new column by specifying the name of that column and assigning a
 
 ```{python}
 df["inflation_factor"] = 1.5
+
 df.head()
 ```
 
@@ -125,35 +124,41 @@ In practice, instead of creating a new column of constants or placeholder values
 
 ## Mapping Columns
 
-We can transform the values in a given column, performing the transformation using either a constant scalar value, or another column of values.
+We can transform the values in one given column, and store the results in another column
 
-When mapping using a single scalar value, for example multiplying by 1.5, each value in the original column gets multiplied by that same value:
+When mapping using a single scalar value, for example multiplying all values in a column by 1.5:
 
 ```{python}
+# PRICE COL * 1.5
 df["inflated_price"] = (df["price"] * 1.5).round(2)
+
 df[["id", "name", "price", "inflated_price"]].head()
 ```
 
-When mapping using two `Series` objects, this performs an element-wise operation where the first values in each series are compared, then the second values, etc.
+When mapping using two columns, this performs an element-wise operation where the first values in each `Series` are compared, then the second values, etc.
 
 
 ```{python}
+# PRICE COL * INFLATION FACTOR COL
 df["inflated_price"] = (df["price"] * df["inflation_factor"]).round(2)
+
 df[["id", "name", "price", "inflation_factor", "inflated_price"]].head()
 ```
 
 
-This essentially allows us to access and compare multiple values from the same row.
+This essentially allows us to compare multiple values from the same row.
+
+
 
 
 
 
 ### Applying a Mapping Dictionary
 
-If we want to change certain values, we can use the `map` method in conjunction with a dictionary mapping of new values:
+If we want to change certain values, we can use the [`map` method](https://pandas.pydata.org/docs/reference/api/pandas.Series.map.html) in conjunction with a dictionary to provide the mapping of old values to new values:
 
 ```{python}
-departments_map = {
+department_abbrevs = {
   "beverages": "BV",
   "frozen": "FR",
   "pantry": "PN",
@@ -164,34 +169,44 @@ departments_map = {
   "babies": "BB",
   "meat seafood": "MS",
   "dry goods pasta": "DG",
-}
-df["dept_abbrev"] = df["dept"].map(departments_map)
+} # DEFINE VALUE MAPPING
+
+df["dept_abbrev"] = df["dept"].map(department_abbrevs) # APPLY VALUE MAPPING
+
 df[["id", "name", "dept", "dept_abbrev"]].head()
 ```
 
+In this example, we are using the `department_abbrevs` dictionary to look up the corresponding abbreviation for each department name in the "dept" column. As a result we obtain a new column of transformed values (the abbreviations), which we are storing back in the original `DataFrame` in a new column called "dept_abbrev".
+
+
 ### Applying a Transformation Function
 
-For more complex logic, we can use the [`apply` method](https://pandas.pydata.org/docs/reference/api/pandas.Series.apply.html) to apply a transformation function.
+For more complex mapping logic, we can use the [`apply` method](https://pandas.pydata.org/docs/reference/api/pandas.Series.apply.html) to apply a transformation function.
 
-We define our own transformation function which accepts a single parameter representing one of the values in the original series we are applying the transformation over, and return the transformed value.
-
-Then we pass that transformation function as a parameter to the `apply` method:
+When defining our own transformation function, the function should accept a parameter representing one of the values in the column over which we are applying the function. It should operate on that input value and return the transformed value.
 
 ```{python}
-# transformation function:
+# TRANSFORMATION FUNCTION:
 
-def inflated_price(original_price):
+def inflate_price(original_price):
     # only inflate if the price is greater than $5
     if original_price < 5.00:
         return original_price
     else:
         return original_price * 1.5
 
-assert inflated_price(3.00) == 3.00
-assert inflated_price(10.00) == 15.00
+assert inflate_price(3.00) == 3.00
+assert inflate_price(10.00) == 15.00
 ```
 
+
+After defining the transformation function, we pass that function as a parameter to the `apply` method:
+
 ```{python}
-df["inflated_price"] = df["price"].apply(inflated_price).round(2)
+# APPLY TRANSFORMATION FUNCTION TO PRICE COL:
+df["inflated_price"] = df["price"].apply(inflate_price).round(2)
+
 df[["id", "name", "price", "inflated_price"]].head()
 ```
+
+In this example, we are applying the transformation function `inflate_price` to each value in the "price" column. As a result we obtain a new column of transformed values, which we are storing back in the original `DataFrame` in a new column called "inflated_price".

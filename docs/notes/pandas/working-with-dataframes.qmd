@@ -64,7 +64,7 @@ The `shape` is a tuple formatted as `(n_rows, n_cols)`, where the first value re
 
 ### Column Names
 
-Every `DataFrame` object has a list of column names which uniquely identify the columns in the dataset.
+Every `DataFrame` object has a set of **column names**, which uniquely identify the columns in the dataset.
 
 Accessing the column names, using the `columns` property:
 
@@ -72,7 +72,7 @@ Accessing the column names, using the `columns` property:
 df.columns
 ```
 
-We get back a list-like object, which we can convert to a simple list using the `tolist` method:
+This produces a list-like `Index` object, which we can convert to a list using the `tolist` method, as desired:
 
 ```{python}
 df.columns.tolist()
@@ -82,34 +82,38 @@ df.columns.tolist()
 The `tolist` method is used across the `numpy` and `pandas` packages to convert specialized data structures to simple Python lists.
 :::
 
+
 ### Row Index Values
 
-Every `DataFrame` object has an index, which is a set of unique row identifiers. The default index is a set of auto-incrementing numbers starting at 0, similar to the index values of a list.
+Every `DataFrame` object has a set of **row index** values, which uniquely identify the rows in the dataset.
 
-Accessing the index values, using the `index` property:
+Accessing the row index values, using the `index` property:
 
 ```{python}
 df.index
 ```
 
-
-When we reference the index, we get back a list-like object, which we can convert to a simple list using the `tolist` method:
+Just like the column index, the row index can be converted to a list:
 
 ```{python}
 df.index.tolist()
 ```
 
-It is possible to update the index (see [Index Operations](./index-operations.qmd)).
+As we see, the default row index is a set of auto-incrementing numbers starting at 0 (similar to the index values of a simple list).
 
-## Accessing Columns
+However, it is possible to update the index values. For more information about working with the index, see [Index Operations](./index-operations.qmd).
+
+
+## Accessing Data
+
+### Accessing Columns
 
 We can access one or more columns worth of values, using a dictionary-like accessor.
 
 To access a single column, we pass the string column name, and we get a pandas `Series` object back:
 
 ```{python}
-names = df["name"]
-
+names = df["name"] # SINGLE COLUMN NAME
 print(type(names))
 names.head()
 ```
@@ -117,42 +121,43 @@ names.head()
 To access multiple columns, we pass a list of string column names, and we get a `DataFrame` object back:
 
 ```{python}
-names_and_prices = df[["name", "price"]]
-
+names_and_prices = df[["name", "price"]] # LIST OF COLUMN NAMES
 print(type(names_and_prices))
 names_and_prices.head()
 ```
 
-## Accessing Rows
+For more information about working with columns, see [Column Operations](./column-operations.qmd).
 
-To reference a given row, we use a list-like accessor in conjunction with the `iloc` method.
 
-In this example, we are accessing the first row, using an index value of `0`. When we access a single row, we get a `Series` object back:
+### Accessing Rows
+
+To access a given row, we can use the `iloc` method in conjunction with a list-like accessor, referencing the index value of that row:
 
 ```{python}
-first_row = df.iloc[0]
-
+first_row = df.iloc[0] # ACCESSING A ROW BY ITS INDEX VALUE
 print(type(first_row))
 first_row
 ```
 
-In this example, we are accessing the first three rows, using a list slicing approach. When we access multiple rows, we get a `DataFrame` object back:
-
-```{python}
-first_three = df.iloc[0:3]
-
-print(type(first_three))
-first_three
-```
+When we access a single row, we get a `Series` object back.
 
 :::{.callout-note}
 When we use index references like this with the `iloc` method, we are actually referencing the index value itself, not the position of the row in the dataset. In the event the index values change, you would need to use the new values instead of the default integer values.
 :::
 
+We can access multiple rows in succession (for example the first three rows), using a list-slicing approach:
 
+```{python}
+first_rows = df.iloc[0:3] # MULTIPLE ROWS, LIST-SLICING APPROACH
+print(type(first_rows))
+first_rows
+```
 
+When we access multiple rows, we get a `DataFrame` object back.
 
-## Accessing Cell Values
+For more information about working with rows, see [Row Operations](./row-operations.qmd).
+
+### Accessing Cell Values
 
 It is possible to access individual values using the `loc` method, or a row-based approach, or a column-based approach.
 
@@ -160,17 +165,17 @@ It is possible to access individual values using the `loc` method, or a row-base
 The `loc` method, specifying the given row index value, and the column name:
 
 ```{python}
-df.loc[0, "name"]
+df.loc[0, "name"] # CELL-ORIENTED APPROACH [ROW INDEX, COL NAME]
 ```
 
 Row-based approach, using the aforementioned `iloc` method gets us the first row, then we access one of its values using a dictionary-like accessor:
 
 ```{python}
-df.iloc[0]["name"]
+df.iloc[0]["name"] # ROW-ORIENTED APPROACH
 ```
 
 Column-based approach, referencing the column name to get us the column, then we access one of its values using a list-like accessor:
 
 ```{python}
-df["name"][0]
+df["name"][0] # COLUMN-ORIENTED APPROACH
 ```

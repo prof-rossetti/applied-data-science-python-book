@@ -13,7 +13,7 @@ execute:
 For these examples we will use a familiar dataset of products:
 
 ```{python}
-#|echo: false
+#|code-fold: show
 
 from pandas import read_csv
 
@@ -26,10 +26,9 @@ df.head()
 
 We can convert a `DataFrame` to a list of dictionaries, using the `to_dict` method:
 ```{python}
-products = df.to_dict("records")
+products = df.to_dict("records") # CONVERT TO LIST OF DICT
 
 print(type(products))
-print(len(products))
 print(type(products[0]))
 products[0]
 ```

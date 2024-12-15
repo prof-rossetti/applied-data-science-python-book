@@ -14,7 +14,7 @@ In this chapter we will focus on row operations, including looping, sorting, and
 For these examples, we will use our familiar dataset of products:
 
 ```{python}
-#|code-fold: True
+#|code-fold: show
 
 from pandas import read_csv
 
@@ -36,7 +36,8 @@ print(first_row)
 With a `Series` object as a row, we can use dictionary-like accessors to access the values based on their column names:
 
 ```{python}
-print(first_row["name"], first_row["price"])
+print(first_row["name"])
+print(first_row["price"])
 ```
 
 And we can convert the `Series` object to a normal dictionary as desired:
@@ -69,7 +70,7 @@ for i, row in df.head(3).iterrows():
 We can use the `DataFrame` object's [`sort_values` method](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.sort_values.html
  ) to sort rows on the basis of one or more given columns.
 
-By default, `sort_values` is not mutating, but as of the current version of `pandas`, we can use the `inplace` parameter to perform a mutating sort:
+By default, `sort_values` is not mutating, unless we use the `inplace` parameter:
 
 
 ```{python}
@@ -96,7 +97,7 @@ df.sort_values(by="id", ascending=True, inplace=True)
 
 We can filter a `DataFrame` to get only the rows that match some given condition.
 
-We first specify a "mask" condition that determines for each row, whether it meet the criteria or not (True vs False). This mask is testing equality using the familiar `==` operator:
+We first specify a "mask" condition that determines for each row, whether it meet the criteria or not (`True` or `False`). This first example mask is testing equality using the familiar `==` operator:
 
 
 ```{python}
