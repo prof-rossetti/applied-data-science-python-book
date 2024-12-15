@@ -14,7 +14,7 @@ In this chapter we will focus on row operations, including looping, sorting, and
 For these examples, we will use our familiar dataset of products:
 
 ```{python}
-#|code-fold: show
+#|code-fold: True
 
 from pandas import read_csv
 

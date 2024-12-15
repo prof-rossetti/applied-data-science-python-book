@@ -6,7 +6,7 @@ Now that we know how to obtain a `DataFrame` object, let's start working with on
 For example, this dataset of grocery products, which is hosted online:
 
 ```{python}
-#|code-fold: false
+#|code-fold: True
 
 from pandas import read_csv
 

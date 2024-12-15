@@ -22,35 +22,39 @@ We will implement two different kinds of moving average:
 Let's consider the following time series dataset of stock prices:
 
 ```{python}
+#|code-fold: True
+
 from pandas import read_csv
 
 request_url = "https://raw.githubusercontent.com/prof-rossetti/python-for-finance/main/docs/data/daily_adjusted_NFLX.csv"
-prices_df = read_csv(request_url)
-prices_df.head()
+df = read_csv(request_url)
+df.head()
 ```
 
 Because we'll be using shift-based methods, we must first sort the data, as usual, by date in ascending order:
 
 ```{python}
-prices_df.sort_values(by=["timestamp"], inplace=True) #
-prices_df.head()
+df.sort_values(by=["timestamp"], inplace=True) # SORT BY DATE ASC
+df.head()
 ```
 
 
 ```{python}
 
 
-prices_df["ma_50"] = prices_df["adjusted_close"].rolling(window=50).mean()
+df["ma_50"] = df["adjusted_close"].rolling(window=50).mean()
 
-prices_df["ema_50"] = prices_df["adjusted_close"].ewm(span=50, min_periods=0, adjust=False, ignore_na=False).mean()
+df["ema_50"] = df["adjusted_close"].ewm(span=50, min_periods=0, adjust=False, ignore_na=False).mean()
 
-prices_df[["timestamp", "adjusted_close", "ma_50", "ema_50"]]
+df[["timestamp", "adjusted_close", "ma_50", "ema_50"]]
 ```
 
 ```{python}
+#|code-fold: True
+
 import plotly.express as px
 
-px.line(prices_df, x="timestamp", y=["close", "ma_50", "ema_50"],
+px.line(df, x="timestamp", y=["close", "ma_50", "ema_50"],
         title=f"Adjusted Closing Prices",
         color_discrete_map={
             "close": "royalblue",
@@ -66,10 +70,14 @@ If you would like to change this behavior to be less methodologically strict, we
 
 
 ```{python}
-# SETTING MIN PERIODS = ZERO:
-prices_df["ma_50_min_0"] = prices_df["adjusted_close"].rolling(window=50, min_periods=0).mean()
+# ZERO PERIODS MINIMUM:
+df["ma_50_min_0"] = df["adjusted_close"].rolling(window=50, min_periods=0).mean()
+```
 
-px.line(prices_df, x="timestamp",
+```{python}
+#|code-fold: True
+
+px.line(df, x="timestamp",
         y=["close", "ma_50_min_0", "ma_50", "ema_50"],
         title=f"Adjusted Closing Prices",
         color_discrete_map={
@@ -92,12 +100,12 @@ Reference: <https://www.investopedia.com/terms/g/goldencross.asp>
 For this "golden cross" analysis we will use dataset of Bitcoin prices:
 
 ```{python}
+#|code-fold: True
+
 from pandas import read_csv, to_datetime
 
 def fetch_crypto_data():
-    request_url = (
-        "https://raw.githubusercontent.com/"
-        "prof-rossetti/applied-data-science-python-book/"
+    request_url = ("https://raw.githubusercontent.com/prof-rossetti/applied-data-science-python-book/"
         "main/docs/data/currency-daily-BTC-USD-20141123.csv"
         #"main/docs/data/currency_daily_btc_usd_20141123.csv"
     )
@@ -147,6 +155,8 @@ golden_cross_points[["close", "MA_50", "MA_200"]].head()
 Visualizing the golden cross points:
 
 ```{python}
+#| code-fold: True
+
 title = "Bitcoin Prices with Moving Average and Golden Cross"
 colors_map = {"close": "steelblue", "MA_50": "yellow", "MA_200": "orange"}
 
@@ -205,6 +215,8 @@ df[["close", ma_col, lower_col, upper_col]].head()
 Plotting the bands:
 
 ```{python}
+#| code-fold: True
+
 import plotly.express as px
 
 title = "Bitcoin Price with Moving Average and Bollinger Bands"
@@ -222,6 +234,8 @@ fig.show()
 Plotting bands (alternative fill variant):
 
 ```{python}
+#| code-fold: True
+
 from pandas import concat, Series
 
 # fill regions:

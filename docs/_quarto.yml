@@ -92,6 +92,20 @@ book:
           text: "Exporting Data Frames"
 
 
+
+    - part: "Time-series Data Analysis"
+      chapters:
+
+        - href: notes/time-series-data-analysis/dates-times.qmd
+          text: "Dates and Times"
+
+        - href: notes/time-series-data-analysis/shift-methods.qmd
+          text: "Shift based Methods" # "Growth and Cumulative Growth"
+
+        - href: notes/time-series-data-analysis/moving-averages.qmd
+          text: "Moving Averages"
+
+
     - part: "Data Wrangling"
       chapters:
 
@@ -105,18 +119,6 @@ book:
           text: "Joining and Merging"
 
 
-
-    - part: "Time-series Data Analysis"
-      chapters:
-
-        - href: notes/time-series-data-analysis/dates-times.qmd
-          text: "Dates and Times"
-
-        - href: notes/time-series-data-analysis/shift-methods.qmd
-          text: "Shift based Methods" # "Growth and Cumulative Growth"
-
-        - href: notes/time-series-data-analysis/moving-averages.qmd
-          text: "Moving Averages"
 
 
     - part: "Applied Statistics"
