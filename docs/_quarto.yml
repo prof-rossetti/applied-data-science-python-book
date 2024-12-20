@@ -156,6 +156,10 @@ book:
         - href: notes/financial-data-sources/pandas-datareader.qmd
           text: "Pandas Datareader"
 
+        - href: notes/financial-data-sources/alphavantage-api.qmd
+          text: "AlphaVantage API"
+
+
 
 
   # shows up at bottom of page
