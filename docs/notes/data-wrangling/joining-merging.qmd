@@ -206,10 +206,7 @@ API_KEY = os.getenv("ALPHAVANTAGE_API_KEY", default="abc123")
 from pandas import read_csv
 
 def fetch_treasury_yields(maturity):
-    request_url = (
-        "https://www.alphavantage.co/query?function=TREASURY_YIELD"
-        f"&interval=monthly&maturity={maturity}&apikey={API_KEY}&datatype=csv"
-    )
+    request_url = f"https://www.alphavantage.co/query?function=TREASURY_YIELD&interval=monthly&maturity={maturity}&apikey={API_KEY}&datatype=csv"
     df = read_csv(request_url)
     df.index = df["timestamp"]
     df.drop(columns=["timestamp"], inplace=True)
