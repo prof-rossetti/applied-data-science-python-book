@@ -62,3 +62,5 @@ quarto render docs/ --verbose
 We are using the ["deploy.yml" workflow configuration file](/.github/workflows/deploy.yml) to deploy the site to GitHub Pages when new commits are pushed to the main branch.
 
 In order for this to work, you first need to configure your GitHub Pages repo settings to publish via GitHub Actions.
+
+You also need to set the environment variable(s) via repo secrets, and pass them to the Quarto render step in the GitHub Actions workflow file.

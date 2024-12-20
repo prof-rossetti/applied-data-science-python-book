@@ -34,7 +34,9 @@ API_KEY = os.getenv("ALPHAVANTAGE_API_KEY", default="abc123")
 ```
 
 
-Then we supply the API Key value along with our requests:
+Then we supply the API Key value along with our requests.
+
+For example, requesting [unemployment rates](https://www.alphavantage.co/documentation/#unemployment):
 
 
 ```{python}
@@ -43,6 +45,21 @@ from pandas import read_csv
 request_url = (
     "https://www.alphavantage.co/query?function=UNEMPLOYMENT"
     f"&apikey={API_KEY}&datatype=csv"
+)
+df = read_csv(request_url)
+df.head()
+```
+
+Requesting [stock prices](https://www.alphavantage.co/documentation/#dailyadj):
+
+
+```{python}
+from pandas import read_csv
+
+symbol = "NFLX"
+request_url = (
+    "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED"
+    f"&symbol={symbol}&apikey={API_KEY}&datatype=csv"
 )
 df = read_csv(request_url)
 df.head()
