@@ -1,0 +1,15 @@
+# Data Wrangling
+
+**Data wrangling** is the process of transforming data into a more usable format for analysis.
+
+![Source: Harvard Business School](https://online.hbs.edu/PublishingImages/data-wrangling-vs-data-cleaning.png){height=450}
+
+
+<!--
+![](https://online.hbs.edu/PublishingImages/6-steps-of-data-wrangling.png)
+-->
+
+Data Wrangling Operations:
+
+  + [Grouping and Pivoting](./grouping-pivoting.qmd)
+  + [Joining and Merging](./joining-merging-old.ipynb)

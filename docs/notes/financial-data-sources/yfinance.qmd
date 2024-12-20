@@ -1,4 +1,4 @@
-# The `yfinance` Pacakge
+# The `yfinance` Package
 
 Fetching data from Yahoo Finance:
 

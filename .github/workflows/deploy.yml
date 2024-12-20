@@ -25,6 +25,7 @@ jobs:
     permissions:
       pages: write
       id-token: write
+
     steps:
     - uses: actions/checkout@v3
 
@@ -67,6 +68,8 @@ jobs:
 
     # RENDER WEBSITE CONTENTS TO DOCS/_BUILD
     - name: Build the book
+      env:
+        ALPHAVANTAGE_API_KEY: ${{ secrets.ALPHAVANTAGE_API_KEY }}
       run: |
         quarto render docs/
 

@@ -1,0 +1,92 @@
+---
+format:
+  html:
+    code-fold: false #show
+jupyter: python3
+execute:
+  cache: true # re-render only when source changes
+---
+
+# Row Index Values
+
+In this chapter we will focus on index operations, including changing and resetting the index.
+
+
+## Setting the Index
+
+Every `DataFrame` has a default index values, but we can set our own.
+
+We might do this in practice when one of the columns in the dataset contains values which uniquely identify each row in the dataset.
+
+For example, this products dataset has an "id" column that uniquely represents each row, so we could set that column as the index:
+
+```{python}
+from pandas import read_csv
+
+request_url = "https://raw.githubusercontent.com/prof-rossetti/intro-to-python/main/data/products.csv"
+df = read_csv(request_url)
+df.head()
+```
+
+Setting the "id" column as the index:
+
+```{python}
+# set the index and name it:
+df.index = df["id"]
+df.index.name = "id"
+
+# drop old column, as necessary and desired:
+df.drop(columns=["id"], inplace=True)
+
+df.head()
+```
+
+## Resetting the Index
+
+If you want to revert a `DataFrame` to use the default index values (auto-incrementing integers), we can use the `reset` method:
+
+```{python}
+df.reset_index(inplace=True)
+df.head()
+```
+
+## Resetting a Multi-Index
+
+If our dataset has a multi-index (like a composite primary key comprised of multiple columns), we can convert the index components to their own columns, and reset the index to be simpler.
+
+Consider this dataset of time-series stock prices from the `yahooquery` package, where we have a row per stock per date:
+
+```{python}
+#| echo: false
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+```
+
+```{python}
+from yahooquery import Ticker
+
+symbols = ["MSFT", "AAPL", "GOOGL"]
+ticker = Ticker(symbols)
+df = ticker.history(start="2024-01-01", end="2024-01-05", adj_ohlc=True)
+df
+```
+
+We see the row index is a gnarly `MultiIndex` consisting of two values, representing both the "symbol" and the "date":
+
+```{python}
+df.index
+```
+
+Resetting the index:
+
+```{python}
+# moving multi-index to their own separate columns:
+df["symbol"] = df.index.get_level_values(0)
+df["date"] = df.index.get_level_values(1)
+
+# resetting the index:
+df.reset_index(drop=True, inplace=True)
+df.head()
+```
+
+This gives us a flatter structure which may be easier to work with.

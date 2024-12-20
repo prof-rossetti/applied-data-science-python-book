@@ -7,7 +7,7 @@ execute:
   cache: true # re-render only when source changes
 ---
 
-# The `pandas-datareader` Pacakge
+# The `pandas-datareader` Package
 
 ## FRED Data
 

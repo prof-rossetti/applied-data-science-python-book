@@ -1,0 +1,149 @@
+---
+format:
+  html:
+    code-fold: false #show
+jupyter: python3
+execute:
+  cache: true # re-render only when source changes
+---
+
+# Obtaining Data Frames
+
+The `pandas` package provides a super-charged datatype called the `DataFrame`, which represents tabular, spreadsheet-style data with rows and columns.
+
+We can obtain a `DataFrame` object by either reading a CSV file, or by constructing one ourselves.
+
+
+## Reading CSV Files
+
+If we have data files in tabular format (for example in CSV format, or XLS / XLSX format), we can use the [`read_csv`](https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html) function, or [`read_excel`](https://pandas.pydata.org/docs/reference/api/pandas.read_excel.html) function, respectively, to convert that data into a `DataFrame` object. Here we will focus primarily on CSV files.
+
+We can use these functions to read files saved locally, as well as hosted on the Internet.
+
+### Local Files
+
+In terms of reading local files, the file needs to be in the same location as the Python code.
+
+For example, in the [Colab Filesystem](https://prof-rossetti.github.io/intro-software-dev-python-book/notes/dev-tools/google-colab/filesystem.html), there is a CSV file called "california_housing_train.csv" in the "sample_data" directory:
+
+![Example CSV file in the Colab Filesystem](../../images/colab-sample-data-file.png){height=350}
+
+```{python}
+#| echo: False
+
+import os
+os.chdir("../../data/colab")
+```
+
+To read this file, we pass the relative filepath as a parameter to the `read_csv` function:
+
+
+```{python}
+from pandas import read_csv
+
+csv_filepath = "sample_data/california_housing_train.csv"
+
+df = read_csv(csv_filepath)
+print(type(df))
+df.head()
+```
+
+
+### Hosted Files
+
+In terms of CSV formatted data hosted on the Internet, we note the URL of the hosted file, and pass it to the `read_csv` function:
+
+```{python}
+from pandas import read_csv
+
+request_url = "https://raw.githubusercontent.com/prof-rossetti/intro-to-python/main/data/daily_adjusted_nflx.csv"
+
+df = read_csv(request_url)
+print(type(df))
+df.head()
+```
+
+
+
+## Constructing Data Frames
+
+We can also construct our own `DataFrame` objects.
+
+If we have Python data in an eligible format (list of lists, list of dictionaries, dictionary of lists), we can pass that data to the [`DataFrame` class constructor](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) to obtain a `DataFrame` object back.
+
+### List of Lists
+
+Here, we are constructing a `DataFrame` from a list of lists:
+
+```{python}
+from pandas import DataFrame
+
+# list of lists:
+prices = [
+    ["2020-10-01", 100.00],
+    ["2020-10-02", 101.01],
+    ["2020-10-03", 120.20],
+    ["2020-10-04", 107.07],
+    ["2020-10-05", 142.42],
+    ["2020-10-06", 135.35],
+    ["2020-10-07", 160.60],
+    ["2020-10-08", 162.62],
+]
+
+df = DataFrame(prices, columns=["date", "stock_price_usd"])
+print(type(df))
+df.head()
+```
+
+In this case we wind up with a row for each item in the outer list, and a column for each value in the inner list.
+
+Because the lists don't have column names, we supply those separately, using the `columns` parameter.
+
+### List of Dictionaries
+
+Here, we are constructing a `DataFrame` from a list of dictionaries (i.e. "records" format), which is a very common and usable format:
+
+
+```{python}
+from pandas import DataFrame
+
+# "records" format (list of dicts):
+prices = [
+    {"date": "2020-10-01", "stock_price_usd": 100.00},
+    {"date": "2020-10-02", "stock_price_usd": 101.01},
+    {"date": "2020-10-03", "stock_price_usd": 120.20},
+    {"date": "2020-10-04", "stock_price_usd": 107.07},
+    {"date": "2020-10-05", "stock_price_usd": 142.42},
+    {"date": "2020-10-06", "stock_price_usd": 135.35},
+    {"date": "2020-10-07", "stock_price_usd": 160.60},
+    {"date": "2020-10-08", "stock_price_usd": 162.62},
+]
+
+df = DataFrame(prices)
+print(type(df))
+df.head()
+```
+
+In this case we wind up with a row for each dictionary in the list, and the dictionary keys become the column names.
+
+### Dictionary of Lists
+
+In this final example, we are constructing a `DataFrame` from a dictionary of lists:
+
+
+```{python}
+from pandas import DataFrame
+
+# dict of lists:
+prices = {
+    "date": ["2020-10-01", "2020-10-02", "2020-10-03", "2020-10-04","2020-10-05", "2020-10-06", "2020-10-07", "2020-10-08"],
+    "stock_price_usd": [100.00, 101.01, 120.20, 107.07, 142.42, 135.35, 160.60, 162.62]
+}
+
+df = DataFrame(prices)
+print(type(df))
+df.head()
+```
+
+
+In this case, the dictionary's keys become column names that describe the corresponding list of values in that column.

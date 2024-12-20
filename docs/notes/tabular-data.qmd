@@ -1,0 +1,27 @@
+# Tabular Data {.unnumbered}
+
+![Tabular Data. Source: [Flaticon](https://cdn-icons-png.flaticon.com/512/4675/4675642.png)](https://cdn-icons-png.flaticon.com/512/4675/4675642.png){height=350}
+
+**Tabular data** refers to information organized in rows and columns, resembling a table or spreadsheet. Each row typically represents an individual record or observation, while each column corresponds to a specific variable or attribute.
+
+<!--
+![Tabular Data. Source: [Statology](https://www.statology.org/tabular-data/)](https://www.statology.org/wp-content/uploads/2022/03/tabular2-1024x722.jpg){height=250}
+
+-->
+
+
+Tabular data is widely used in finance for tasks like portfolio analysis, risk assessment, and market trend analysis.
+
+The structured nature of tabular data allows for efficient storage, querying, and manipulation. This makes tabular data a good choice when performing data analysis, data visualization, and statistical analysis, including machine learning.
+
+Tabular data is also compatible with the CSV file format, spreadsheet software, and relational databases, further enhancing its versatility and accessibility.
+
+
+
+## Processing Tabular Data in Python with `pandas`
+
+In Python, the [`pandas` package](https://pypi.org/project/pandas/) makes it easy to work with CSV formatted (i.e. \"tabular\") data.
+
+The `pandas` package provides two new super-charged datatypes of interest: the `DataFrame` and the `Series`. The [`DataFrame` datatype](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) represents the entire tabular data structure, a "matrix" of rows and columns. Whereas the [`Series` datatype](https://pandas.pydata.org/docs/reference/api/pandas.Series.html) represents either a single row, or a single column in the dataset.
+
+Let's explore some common and practical ways of working with these objects.

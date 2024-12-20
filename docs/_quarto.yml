@@ -66,41 +66,59 @@ book:
 
   chapters:
     - index.qmd
-    #- notes/predictive-modeling.qmd
 
-    - part: "Intro to Pandas"
+    - href: notes/tabular-data.qmd
+      text: "Tabular Data"
+
+    - part: "Getting Started with Pandas"
       chapters:
 
-        - href: notes/pandas/overview.qmd
-          text: "Pandas Package Overview"
+        - href: notes/pandas/obtaining-dataframes.qmd
+          text: "Obtaining Data Frames"
 
-        - href: notes/pandas/dataframes-2.ipynb
-          text: "Dataframes"
+        - href: notes/pandas/working-with-dataframes.qmd
+          text: "Working with Data Frames"
 
-        #- href: notes/pandas/dataframes.qmd
-        #  text: "Data Frames"
+        - href: notes/pandas/column-operations.qmd
+          text: "Column Operations"
 
-        #- href: notes/pandas/series.qmd
-        #  text: "Data Frames"
+        - href: notes/pandas/row-operations.qmd
+          text: "Row Operations"
 
-        #- href: notes/pandas/dates-times.qmd
-        #  text: "Dates and Times in Pandas"
+        - href: notes/pandas/index-operations.qmd
+          text: "Index Operations"
+
+        - href: notes/pandas/exporting-dataframes.qmd
+          text: "Exporting Data Frames"
 
 
-    - part: "Data Analytics in Pandas"
+
+    - part: "Time-series Data Analysis"
       chapters:
 
-        - href: notes/pandas/grouping-pivoting.qmd
-          text: "Grouping and Pivoting"
+        - href: notes/time-series-data-analysis/dates-times.qmd
+          text: "Dates and Times"
 
-        - href: notes/pandas/shift-methods.qmd
+        - href: notes/time-series-data-analysis/shift-methods.qmd
           text: "Shift based Methods" # "Growth and Cumulative Growth"
 
-        - href: notes/pandas/moving-averages.qmd
+        - href: notes/time-series-data-analysis/moving-averages.qmd
           text: "Moving Averages"
 
-        - href: notes/pandas/joining-merging-old.ipynb
+
+    - part: "Data Wrangling"
+      chapters:
+
+        - href: notes/data-wrangling/overview.qmd
+          text: "Data Wrangling Overview"
+
+        - href: notes/data-wrangling/grouping-pivoting.qmd
+          text: "Grouping and Pivoting"
+
+        - href: notes/data-wrangling/joining-merging.qmd
           text: "Joining and Merging"
+
+
 
 
     - part: "Applied Statistics"
@@ -112,28 +130,16 @@ book:
         - href: notes/applied-stats/basic-tests-old.qmd
           text: "Statistical Tests"
 
-        #- href: notes/applied-stats/data-scaling.qmd
-        #  text: "Data Scaling"
-
         - href: notes/applied-stats/correlation.qmd
           text: "Correlation"
-
-
-
-
 
 
     - "-----------------"
     - about-author.qmd
     - "-----------------"
 
+
   appendices:
-
-  #  - part: "Custom Functions In-Depth"
-  #    chapters:
-  #      - notes/python-lang/control-flow/function-docs.qmd
-  #      - notes/python-lang/control-flow/unit-testing.qmd
-
 
     #- "---------"
     #- text: "Appendices"
@@ -149,6 +155,9 @@ book:
 
         - href: notes/financial-data-sources/pandas-datareader.qmd
           text: "Pandas Datareader"
+
+        - href: notes/financial-data-sources/alphavantage-api.qmd
+          text: "AlphaVantage API"
 
 
 
@@ -166,7 +175,7 @@ format:
   html:
     # https://quarto.org/docs/output-formats/html-themes.html
     # https://bootswatch.com/
-    theme: minty
+    theme: flatly #journal #minty
       #light: default #flatly
       #dark: darkly
     #css: styles/my-style.css

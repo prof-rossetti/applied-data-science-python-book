@@ -31,6 +31,13 @@ Install package dependencies:
 pip install -r docs/requirements.txt
 ```
 
+Add ".env" file to root directory of the repo, and add AlphaVantage API Key:
+
+```sh
+# this is the ".env file:
+ALPHAVANTAGE_API_KEY="_______"
+```
+
 ## Building
 
 
@@ -55,3 +62,5 @@ quarto render docs/ --verbose
 We are using the ["deploy.yml" workflow configuration file](/.github/workflows/deploy.yml) to deploy the site to GitHub Pages when new commits are pushed to the main branch.
 
 In order for this to work, you first need to configure your GitHub Pages repo settings to publish via GitHub Actions.
+
+You also need to set the environment variable(s) via repo secrets, and pass them to the Quarto render step in the GitHub Actions workflow file.

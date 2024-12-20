@@ -1,0 +1,141 @@
+---
+format:
+  html:
+    code-fold: false #show
+jupyter: python3
+execute:
+  cache: true # re-render only when source changes
+---
+
+# Row Operations
+
+In this chapter we will focus on row operations, including looping, sorting, and filtering rows.
+
+For these examples, we will use our familiar dataset of products:
+
+```{python}
+#|code-fold: True
+
+from pandas import read_csv
+
+request_url = "https://raw.githubusercontent.com/prof-rossetti/intro-to-python/main/data/products.csv"
+df = read_csv(request_url)
+df.head()
+```
+
+## `Series` as a Row
+
+Remember, when we access a given row of values, we are working with a `Series` object:
+
+```{python}
+first_row = df.iloc[0]
+print(type(first_row))
+print(first_row)
+```
+
+With a `Series` object as a row, we can use dictionary-like accessors to access the values based on their column names:
+
+```{python}
+print(first_row["name"])
+print(first_row["price"])
+```
+
+And we can convert the `Series` object to a normal dictionary as desired:
+
+```{python}
+first_row.to_dict()
+```
+
+
+
+## Row Iteration (Looping)
+
+We can loop through each row using the [`iterrows` method](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.iterrows.html), involving a destructuring approach to reference the row index (`i`) as well as the row's values (`row`). With this approach, each row is a `Series` object.
+
+In this example, we are looping through just the first three rows, for simplicity:
+
+
+```{python}
+#for i, row in df.iterrows():
+for i, row in df.head(3).iterrows():
+    print("------------")
+    print("INDEX:", i)
+    print(type(row))
+    print(row)
+```
+
+
+## Sorting Rows
+
+We can use the `DataFrame` object's [`sort_values` method](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.sort_values.html
+ ) to sort rows on the basis of one or more given columns.
+
+By default, `sort_values` is not mutating, unless we use the `inplace` parameter:
+
+
+```{python}
+df.sort_values(by="name", ascending=True, inplace=True)
+df.head()
+```
+
+We can use the `ascending` parameter to specify the sort order:
+
+```{python}
+df.sort_values(by="name", ascending=False, inplace=True)
+df.head()
+```
+
+
+
+```{python}
+#|echo: false
+df.sort_values(by="id", ascending=True, inplace=True)
+```
+
+
+## Filtering Rows
+
+We can filter a `DataFrame` to get only the rows that match some given condition.
+
+We first specify a "mask" condition that determines for each row, whether it meet the criteria or not (`True` or `False`). This first example mask is testing equality using the familiar `==` operator:
+
+
+```{python}
+# this is the mask:
+df["department"] == "beverages"
+```
+
+Filtering based on equality, using the mask inside a square bracket reference:
+
+```{python}
+df[  df["department"] == "beverages" ]
+```
+
+This is an example of filtering based on equality, however there are other filter methods as well.
+
+Filtering based on numeric comparisons, using comparison operators:
+
+```{python}
+df[  df["price"] >= 10.00 ]
+```
+
+Filtering based on values between lower and upper bound, using `between` method:
+
+```{python}
+df[  df["price"].between(10.00, 20.00) ]
+```
+
+
+Filtering based on inclusion, using `isin` method:
+
+```{python}
+selected_departments = ["beverages", "babies"]
+
+df[  df["department"].isin(selected_departments) ]
+```
+
+Filtering on substring match, using `str.contains` method:
+
+```{python}
+df[  df["name"].str.contains("Cookie") ]
+```

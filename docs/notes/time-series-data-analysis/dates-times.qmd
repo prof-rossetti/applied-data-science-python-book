@@ -1,0 +1,66 @@
+---
+format:
+  html:
+    code-fold: false #show
+jupyter: python3
+execute:
+  cache: true # re-render only when source changes
+---
+
+# Dates and Times in `pandas`
+
+For these examples, we will use a time-series dataset of stock prices:
+
+
+```{python}
+#|code-fold: True
+
+from pandas import read_csv
+
+request_url = "https://raw.githubusercontent.com/prof-rossetti/intro-to-python/main/data/daily_adjusted_nflx.csv"
+df = read_csv(request_url)
+df.drop(columns=["split_coefficient", "dividend_amount"], inplace=True)
+df.head()
+```
+
+
+
+## Converting to Datetime
+
+When we are working with a column of strings representing date and/or time values, it is helpful to use the [`to_datetime` function](https://pandas.pydata.org/docs/reference/api/pandas.to_datetime.html) to convert these string values into datetime-aware values that respect datetime operations.
+
+Here we see the original values in the "timestamp" column are date strings:
+
+```{python}
+type(df["timestamp"][0])
+```
+
+After converting this column of string values to datetime-aware values, by passing that column to the `to_datetime` function, we see the resulting values become datetime-aware `Timestamp` objects:
+
+```{python}
+from pandas import to_datetime
+
+df["timestamp"] = to_datetime(df["timestamp"])
+
+type(df["timestamp"][0])
+```
+
+
+## Datetime Operations
+
+When working with `Timestamp` objects, we can easily convert and transform them to various component date parts (such as just the year, just the month, etc.):
+
+
+```{python}
+df["year"] = df["timestamp"].dt.year
+df["month"] = df["timestamp"].dt.month
+df["weekday"] = df["timestamp"].dt.weekday
+df["day_name"] = df["timestamp"].dt.strftime("%A") # DAY NAME
+
+df[["timestamp", "year", "month", "weekday", "day_name"]]
+```
+
+For more information about date and time conversions, see the following documentation links:
+
+  + <https://docs.python.org/3/library/datetime.html>
+  + <https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior>

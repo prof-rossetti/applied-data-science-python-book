@@ -89,7 +89,7 @@ gdp_df
 
 ### The `pct_change` Method
 
-Even though we are able to perform this growth calculation ourselves, we should know the dataframe has a dedicated [`pct_change` method](https://pandas.pydata.org/docs/reference/api/pandas.Series.pct_change.html) for this purpose, which allows us to skip the intermediate steps:
+Even though we are able to perform this growth calculation ourselves, we should know the `DataFrame` has a dedicated [`pct_change` method](https://pandas.pydata.org/docs/reference/api/pandas.Series.pct_change.html) for this purpose, which allows us to skip the intermediate steps:
 
 ```{python}
 # equivalent, leveraging the pct_change method:
@@ -102,7 +102,7 @@ gdp_df[["year", "gdp", "gdp_pct_change"]]
 
 Alright, we have studied how to calculate growth from one period to another, but what about calculating cumulative growth over the entire time period?
 
-To calculate cumulative growth for a particular period, we can use the([`cumprod` method](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.cumprod.html) (or sometimes the [`product` method](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.product.html), depending on the use case). When calculating the cumulative product, each value gets multiplied by the values that follow, in succession.
+To calculate cumulative growth for a particular period, we can use the[`cumprod` method](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.cumprod.html) (or sometimes the [`product` method](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.product.html), depending on the use case). When calculating the cumulative product, each value gets multiplied by the values that follow, in succession.
 
 
 Before we calculate a product, to make the multiplication work, we'll first need to express the growth numbers relative to 1, instead of 0. We'll also need to fill in the initial null value with a 1, so the first period represents 100%.
@@ -122,6 +122,8 @@ Then we express growth relative to one instead of zero (so we can calculate cumu
 
 ```{python}
 gdp_df["gdp_pct_change"] = gdp_df["gdp_pct_change"] + 1
+
+gdp_df
 ```
 
 Finally, we calculate the cumulative product of the growth:
@@ -135,4 +137,4 @@ gdp_df["gdp_cumulative_growth"] = gdp_df["gdp_pct_change"].cumprod()
 gdp_df
 ```
 
-We can see how pandas makes it easy to calculate growth and cumulative growth.
+We can see how `pandas` makes it easy to calculate growth and cumulative growth in time-series data.

@@ -1,0 +1,66 @@
+
+---
+format:
+  html:
+    code-fold: false #show
+jupyter: python3
+execute:
+  cache: true # re-render only when source changes
+---
+
+# The AlphaVantage API
+
+The [AlphaVantage API](https://www.alphavantage.co/documentation/) is a wealth of financial and market datasets.
+
+For more information, see the [APIs tutorial](https://prof-rossetti.github.io/intro-software-dev-python-book/notes/fetching-data/apis.html).
+
+After obtaining an API key, and setting the API Key as a notebook secret, we are able to access the API key in a secure way:
+
+```python
+from google.colab import userdata
+
+API_KEY = userdata.get("ALPHAVANTAGE_API_KEY")
+```
+
+```{python}
+#| echo: false
+
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+API_KEY = os.getenv("ALPHAVANTAGE_API_KEY", default="abc123")
+```
+
+
+Then we supply the API Key value along with our requests.
+
+For example, requesting [unemployment rates](https://www.alphavantage.co/documentation/#unemployment):
+
+
+```{python}
+from pandas import read_csv
+
+request_url = (
+    "https://www.alphavantage.co/query?function=UNEMPLOYMENT"
+    f"&apikey={API_KEY}&datatype=csv"
+)
+df = read_csv(request_url)
+df.head()
+```
+
+Requesting [stock prices](https://www.alphavantage.co/documentation/#dailyadj):
+
+
+```{python}
+from pandas import read_csv
+
+symbol = "NFLX"
+request_url = (
+    "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED"
+    f"&symbol={symbol}&apikey={API_KEY}&datatype=csv"
+)
+df = read_csv(request_url)
+df.head()
+```
