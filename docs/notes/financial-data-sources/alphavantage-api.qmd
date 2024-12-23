@@ -42,10 +42,7 @@ For example, requesting [unemployment rates](https://www.alphavantage.co/documen
 ```{python}
 from pandas import read_csv
 
-request_url = (
-    "https://www.alphavantage.co/query?function=UNEMPLOYMENT"
-    f"&apikey={API_KEY}&datatype=csv"
-)
+request_url = f"https://www.alphavantage.co/query?function=UNEMPLOYMENT&apikey={API_KEY}&datatype=csv"
 df = read_csv(request_url)
 df.head()
 ```
@@ -57,10 +54,7 @@ Requesting [stock prices](https://www.alphavantage.co/documentation/#dailyadj):
 from pandas import read_csv
 
 symbol = "NFLX"
-request_url = (
-    "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED"
-    f"&symbol={symbol}&apikey={API_KEY}&datatype=csv"
-)
+request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol={symbol}&apikey={API_KEY}&datatype=csv"
 df = read_csv(request_url)
 df.head()
 ```
