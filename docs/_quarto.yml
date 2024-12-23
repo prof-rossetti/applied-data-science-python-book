@@ -115,7 +115,8 @@ book:
         - href: notes/data-wrangling/grouping-pivoting.qmd
           text: "Grouping and Pivoting"
 
-        - href: notes/data-wrangling/joining-merging.qmd
+        #- href: notes/data-wrangling/joining-merging.qmd # todo: get api keys working!
+        - href: notes/data-wrangling/joining-merging-2.qmd
           text: "Joining and Merging"
 
 
