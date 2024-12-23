@@ -62,15 +62,32 @@ df = tickers.history()
 df.head()
 ```
 
+```{python}
+df.tail()
+```
+
 Simplifying the multi-index:
+
+```{python}
+df["symbol"] = df.index.get_level_values(0)
+df["date"] = df.index.get_level_values(1)
+
+df.reset_index(drop=True, inplace=True)
+
+df[["date", "symbol", "adjclose"]].head()
+```
+
+Optionally converting dates to be datetime-aware:
 
 ```{python}
 from pandas import to_datetime
 
-df["symbol"] = df.index.get_level_values(0)
-df["date"] = to_datetime(df.index.get_level_values(1)).date
+# fix date values (see: https://github.com/dpguthrie/yahooquery/issues/210)
+df["date"] = df["date"].astype("str")
+df["date"] = df["date"].str.split(" ").str[0]
+# convert to datetime-aware values:
+df["date"] = to_datetime(df["date"]).dt.date
 
-df.reset_index(drop=True, inplace=True)
 df[["date", "symbol", "adjclose"]].head()
 ```
 
