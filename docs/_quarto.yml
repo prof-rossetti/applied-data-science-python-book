@@ -92,6 +92,15 @@ book:
           text: "Exporting Data Frames"
 
 
+    - part: "Visualizing Tabular Data"
+      chapters:
+        - href: notes/dataviz-tabular/overview.qmd
+          text: "Data Visualization Overview"
+        - href: notes/dataviz-tabular/trendlines.qmd
+          text: "Charts with Trendlines"
+        - href: notes/dataviz-tabular/candlesticks.qmd
+          text: "Candlestick Charts"
+
 
     - part: "Time-series Data Analysis"
       chapters:
