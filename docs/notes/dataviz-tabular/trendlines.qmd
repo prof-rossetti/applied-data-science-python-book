@@ -30,7 +30,7 @@ df = DataFrame(scatter_data)
 df.head()
 ```
 
-Linear trends:
+Linear trends using the "ols" trendline parameter value:
 
 ```{python}
 from plotly.express import scatter
@@ -43,7 +43,7 @@ fig = scatter(df, x="income", y="life_expectancy", height=350,
 fig.show()
 ```
 
-Non-linear trends:
+Non-linear trends using the "lowess" trendline parameter value:
 
 
 ```{python}
