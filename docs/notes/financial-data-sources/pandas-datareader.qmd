@@ -9,6 +9,9 @@ execute:
 
 # The `pandas-datareader` Package
 
+The `pandas-datareader` package provides an interface to several different [remote data sources](https://pandas-datareader.readthedocs.io/en/latest/remote_data.html), including FRED, AlphaVantage, etc.
+
+
 ## FRED Data
 
 FRED (Federal Reserve Economic Data) provides a wide range of economic datasets covering various aspects such as national accounts, labor markets, prices, interest rates, exchange rates, and more.
@@ -91,3 +94,5 @@ dataset_id = "GDP" # quarterly
 df = get_data_fred(dataset_id, start="2001-01-01", end="2023-01-01")
 df.head()
 ```
+
+The dataset identifier "GDP" corresponds with a given dataset on the [FRED website](https://fred.stlouisfed.org/series/GDP).

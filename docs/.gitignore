@@ -1,5 +1,9 @@
 /.quarto/
 
+/site_libs/
+
 .jupyter_cache
 
 .DS_Store
+
+*_files

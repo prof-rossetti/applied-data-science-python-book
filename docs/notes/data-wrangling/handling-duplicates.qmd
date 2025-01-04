@@ -1,0 +1,29 @@
+
+# Handling Duplicate Records
+
+
+
+```
+len(df)
+```
+
+
+```
+df["cik_str"].nunique()
+```
+
+```
+df["ticker"].nunique()
+```
+
+```
+df[df["ticker"].str.contains("GOOG")]
+```
+
+
+Filtering using a mask:
+
+```
+dups = df[df.duplicated(subset="cik_str", keep=False)]
+dups.sort_values(by="ticker").head(20)
+```

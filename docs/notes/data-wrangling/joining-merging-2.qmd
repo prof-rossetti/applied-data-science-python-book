@@ -189,7 +189,6 @@ In this example, we'll use two different datasets of treasury yields from the Al
 
 ```{python}
 #| echo: false
-
 import os
 from dotenv import load_dotenv
 
@@ -204,15 +203,12 @@ API_KEY = os.getenv("ALPHAVANTAGE_API_KEY", default="abc123")
 from pandas import read_csv
 
 def fetch_treasury_yields(maturity):
-    #request_url = f"https://www.alphavantage.co/query?function=TREASURY_YIELD&interval=monthly&maturity={maturity}&apikey={API_KEY}&datatype=csv"
-    mmap = {"10year": "10yr", "3month": "3mo"}[maturity]
-    request_url = f"https://github.com/prof-rossetti/applied-data-science-python-book/raw/refs/heads/main/docs/data/treasury_yield_{mmap}_20241215.csv"
+    request_url = f"https://github.com/prof-rossetti/applied-data-science-python-book/raw/refs/heads/main/docs/data/treasury_yield_{maturity}_20241215.csv"
 
     df = read_csv(request_url)
     df.index = df["timestamp"]
     df.drop(columns=["timestamp"], inplace=True)
     df.rename(columns={"value": maturity}, inplace=True)
-    df.rename(columns={mmap: maturity}, inplace=True)
 
     return df
 
