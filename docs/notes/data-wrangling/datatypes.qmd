@@ -1,0 +1,112 @@
+
+# Datatype Conversions
+
+## Converting to Numeric
+
+For this example, we will use a dataset of publicly traded companies, from the Nasdaq:
+
+```{python}
+#| code-fold: true
+
+from pandas import read_csv
+
+request_url = "https://raw.githubusercontent.com/prof-rossetti/applied-data-science-python-book/refs/heads/main/docs/data/nasdaq_screener_1735923271750.csv"
+
+df = read_csv(request_url)
+df.rename(columns={"% Change": "Pct Change", "Last Sale": "Latest Close"}, inplace=True)
+df.drop(columns=["Market Cap", "Country", "IPO Year", "Volume", "Industry", "Sector"], inplace=True)
+df.head()
+```
+
+In this case we see the "Latest Close" column contains values like "$134.125" (including the dollar sign), and the "Pct Change" column contains values like "2.386%" (including the percent sign). These values are likely to be string datatypes. This unfortunately would prevent us from performing numeric calculations with the values in these columns.
+
+We can more formally inspect the datatypes of each column, using the [`dtypes` property](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.dtypes.html):
+
+```{python}
+df.dtypes
+```
+
+Here we see the datatype for the "Latest Close" and "Pct Change" columns are both a generic "object", which is often used to represent strings. However we need to convert them to numeric datatypes instead.
+
+:::{.callout-note}
+With [`pandas` datatypes](https://pandas.pydata.org/docs/user_guide/basics.html#basics-dtypes), the "object" datatype "can hold any Python object, including strings."
+
+To disambiguate, we can always ask for the datatype of one of the values itself:
+
+```{python}
+val = df["Pct Change"].values[0]
+print(val)
+print(type(val))
+```
+
+Here we see these values are indeed string datatypes.
+:::
+
+We can use the [`to_numeric` function](https://pandas.pydata.org/docs/reference/api/pandas.to_numeric.html) from pandas to convert a string datatype to numeric:
+
+```{python}
+from pandas import to_numeric
+
+df["Latest Close Numeric"] = to_numeric(df["Latest Close"].str.lstrip("$"))
+
+df["Pct Change Numeric"] = (to_numeric(df["Pct Change"].str.rstrip("%")) / 100)
+
+df[["Symbol", "Latest Close", "Latest Close Numeric", "Pct Change", "Pct Change Numeric"]].head()
+```
+
+:::{.callout-tip}
+In this example we are using string methods such as `lstrip` and `rstrip` to remove a character from the beginning or end of a string, respectively. However there are many other helpful string manipulation methods in pandas. For more information about string column operations, see [Working with Text Data](https://pandas.pydata.org/docs/user_guide/text.html#text-data-types).
+:::
+
+After converting to numeric datatypes, we see the new "Latest Close Numeric" column contains float values like 134.125, and the new "Pct Change Numeric" column contains float values like 0.02386.
+
+We can now use these numeric values to perform calculations, for example calculating the average return, and determining whether there was a gain or loss:
+
+```{python}
+df["Pct Change Numeric"].mean().round(4)
+```
+
+```{python}
+df["Gain"] = df["Pct Change Numeric"] > 0
+df.head()
+```
+
+
+## Datatype Casting
+
+
+In the previous example, we used the `to_numeric` function to convert strings to numbers, however we can alternatively perform a wider variety of datatype casting using the [`astype` method](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.astype.html#pandas.DataFrame.astype).
+
+For example, casting between strings and numbers:
+
+```{python}
+df["Latest Close Numeric"] = df["Latest Close"].str.lstrip("$").astype(float)
+
+df["Latest Close Reconstructed"] = "$" + df["Latest Close Numeric"].astype(str)
+
+df[["Symbol", "Latest Close", "Latest Close Numeric", "Latest Close Reconstructed"]].head()
+```
+
+```{python}
+df["Pct Change Numeric"] = df["Pct Change"].str.rstrip("%").astype(float) / 100
+
+df["Pct Change Reconstructed"] = (df["Pct Change Numeric"] * 100).astype(str) + "%"
+
+df[["Symbol", "Pct Change", "Pct Change Numeric", "Pct Change Reconstructed"]].head()
+```
+
+And casting between booleans and integers:
+
+```{python}
+df["Gain Binary"] = df["Gain"].astype(int)
+df["Gain Reconstructed"] = df["Gain Binary"].astype(bool)
+
+df[["Symbol", "Pct Change", "Gain", "Gain Binary", "Gain Reconstructed"]].head()
+```
+
+
+After all these conversations, we can confirm the datatypes for good measure:
+
+```{python}
+df.dtypes.sort_index()
+```

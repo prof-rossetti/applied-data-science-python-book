@@ -121,6 +121,15 @@ book:
         - href: notes/data-wrangling/overview.qmd
           text: "Data Wrangling Overview"
 
+        - href: notes/data-wrangling/datatypes.qmd
+          text: "Datatype Conversions"
+
+        #- href: notes/data-wrangling/handling-nulls.qmd
+        #  text: "Handling Nulls"
+
+        #- href: notes/data-wrangling/handling-duplicates.qmd
+        #  text: "Handling Duplicates"
+
         - href: notes/data-wrangling/grouping-pivoting.qmd
           text: "Grouping and Pivoting"
 

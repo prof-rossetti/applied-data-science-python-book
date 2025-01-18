@@ -1,12 +1,23 @@
 
 # Handling Duplicate Records
 
+```
+from pandas import read_csv
 
+request_url = ""
+df = read_csv(request_url)
+df.head()
+```
+
+In this particular dataset, there are X records total:
 
 ```
 len(df)
 ```
 
+We see the dataset has columns for "", "", and "". We should try to figure out which of the columns might be a unique identifier.
+
+We see "cik_str" which could be a likely candidate to uniquely represent each row in the dataset. However upon further investigation, we see there are less unique values than the number of rows, which means some values are null, or some values are shared by more than one row.
 
 ```
 df["cik_str"].nunique()
@@ -27,3 +38,7 @@ Filtering using a mask:
 dups = df[df.duplicated(subset="cik_str", keep=False)]
 dups.sort_values(by="ticker").head(20)
 ```
+
+
+
+df[df.duplicated('A', keep=False)]
