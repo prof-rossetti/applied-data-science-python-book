@@ -74,10 +74,10 @@ book:
       chapters:
 
         - href: notes/pandas/obtaining-dataframes.qmd
-          text: "Obtaining Data Frames"
+          text: "Obtaining DataFrames"
 
         - href: notes/pandas/working-with-dataframes.qmd
-          text: "Working with Data Frames"
+          text: "Working with DataFrames"
 
         - href: notes/pandas/column-operations.qmd
           text: "Column Operations"
@@ -89,7 +89,7 @@ book:
           text: "Index Operations"
 
         - href: notes/pandas/exporting-dataframes.qmd
-          text: "Exporting Data Frames"
+          text: "Exporting DataFrames"
 
 
     - part: "Visualizing Tabular Data"
@@ -168,6 +168,9 @@ book:
 
         - href: notes/financial-data-sources/alphavantage-api.qmd
           text: "AlphaVantage API"
+
+        - href: notes/financial-data-sources/sec-gov.qmd
+          text: "SEC API"
 
 
 

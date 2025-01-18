@@ -1,0 +1,69 @@
+
+# SEC Datasets
+
+In this example we are accessing SEC data directly, instead of going through other packages.
+
+The SEC website requires authorization, so we pass some headers like the ones below to obtain the data:
+
+```{python}
+import requests
+
+# h/t: https://stackoverflow.com/a/70386951/670433
+# see: https://www.sec.gov/search-filings/edgar-search-assistance/accessing-edgar-data
+
+request_url = "https://www.sec.gov/files/company_tickers.json"
+
+headers = {"User-Agent": "MyAppName (myemail@example.com)"}
+
+response = requests.get(request_url, headers=headers)
+data = response.json()
+print(type(data))
+```
+
+In this particular case of company tickers data, we get a big dictionary with numeric keys as strings.
+
+```{python}
+list(data.keys())[0:5]
+```
+
+```{python}
+data["0"]
+```
+
+However we can clean up this structure:
+
+```{python}
+records = []
+for k, v in data.items():
+    records.append(v)
+records[0]
+```
+
+And compile our own dataframe:
+
+```{python}
+from pandas import DataFrame
+
+df = DataFrame(records)
+df.head()
+```
+
+```{python}
+#| echo: false
+
+import os
+
+if False:
+
+    # https://github.com/quarto-dev/quarto-cli/discussions/11606
+    #DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "data")
+
+    #DATA_DIR = "/docs/data"
+
+    DATA_DIR = "../../data"
+
+    csv_filepath = os.path.join(DATA_DIR, "sec_company_tickers_20250118.csv")
+
+    df.to_csv(csv_filepath, index=False)
+
+```

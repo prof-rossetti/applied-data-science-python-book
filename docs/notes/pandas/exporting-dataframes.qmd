@@ -8,7 +8,7 @@ execute:
 ---
 
 
-# Exporting Data Frames
+# Exporting DataFrames
 
 For these examples we will use a familiar dataset of products:
 

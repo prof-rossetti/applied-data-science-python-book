@@ -18,7 +18,7 @@ For example, a financial analyst may merge transaction-level data with customer 
 
 If you've used the `VLOOKUP` function in spreadsheet software, or the `JOIN` clause in SQL, you've already merged datasets. Let's explore how to merge datasets in Python.
 
-## Merging Data Frames
+## Merging DataFrames
 
 We can use the [`merge` function](https://pandas.pydata.org/docs/reference/api/pandas.merge.html) from `pandas` to join two datasets together. The `merge` function accepts two `DataFrame` objects as initial parameters, as well as a `how` parameter to indicate the join strategy (see "Join Strategies" section below). There are additional parameters to denote which columns or indices to join on.
 

@@ -7,7 +7,7 @@ execute:
   cache: true # re-render only when source changes
 ---
 
-# Obtaining Data Frames
+# Obtaining DataFrames
 
 The `pandas` package provides a super-charged datatype called the `DataFrame`, which represents tabular, spreadsheet-style data with rows and columns.
 
@@ -65,7 +65,7 @@ df.head()
 
 
 
-## Constructing Data Frames
+## Constructing DataFrames
 
 We can also construct our own `DataFrame` objects.
 

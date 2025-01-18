@@ -1,5 +1,5 @@
 
-# Working with Data Frames
+# Working with DataFrames
 
 Now that we know how to obtain a `DataFrame` object, let's start working with one.
 
