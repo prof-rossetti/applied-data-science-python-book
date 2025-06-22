@@ -1,9 +1,7 @@
 
-# Welcome {.unnumbered}
-
-<!--
 ![](./images/applied-ds-book-banner.png){fig-align="center" fig-alt="Applied Data Science in Python (banner image)" height=400}
--->
+
+# Welcome {.unnumbered}
 
 Welcome to the \"Applied Data Science in Python\" book (2025 edition, online)!
 
