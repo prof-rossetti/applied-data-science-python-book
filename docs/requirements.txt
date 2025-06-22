@@ -20,7 +20,7 @@ pandas
 #seaborn
 plotly
 statsmodels==0.14.2 # used by plotly for trendline parameter
-scipy
+scipy==1.14.0
 #scikit-learn==1.3.2 # match colab environment
 #joblib
 #ucimlrepo
