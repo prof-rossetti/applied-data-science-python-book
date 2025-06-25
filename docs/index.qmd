@@ -1,12 +1,28 @@
 
-![](./images/applied-ds-book-banner.png){fig-align="center" fig-alt="Applied Data Science in Python (banner image)" height=400}
 
 # Welcome {.unnumbered}
 
-Welcome to the \"Applied Data Science in Python\" book (2025 edition, online)!
+<img src="./images/applied-ds-book-banner.png"
+    class="banner-image"
+    alt="Applied Data Science in Python (banner image)"
+>
+
+Welcome to the \"Applied Data Science in Python\" book (<span id="auto-copyright-year">2025</span> edition, online)!
 
 This book provides a hands-on approach to mastering essential tools and techniques for data analytics in business, research, and beyond.
 
 With a focus on practical applications, you'll learn how to load, process, and analyze tabular data, create data visualizations, and explore statistical concepts such as correlation to uncover meaningful patterns and relationships in the data.
 
 Whether you're a business analyst, a data scientist, or a student, this book provides the foundation you need to solve real-world problems using Python.
+
+
+<script type="text/javascript">
+
+    today = new Date();
+    thisYear =  today.getFullYear();
+    console.log("THE YEAR IS: ", thisYear);
+
+    var year = document.getElementById("auto-copyright-year");
+    year.innerText = thisYear;
+
+</script>

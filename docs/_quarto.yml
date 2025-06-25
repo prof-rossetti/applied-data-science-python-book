@@ -200,7 +200,7 @@ format:
     theme: flatly #journal #minty
       #light: default #flatly
       #dark: darkly
-    #css: styles/my-style.css
+    css: styles/my-style.css
     code-copy: true
     #code-fold: false #show
     ##code-line-numbers: true
