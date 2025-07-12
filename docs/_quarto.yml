@@ -46,6 +46,8 @@ book:
     location: sidebar # navbar, sidebar
     #type: textbox # overlay, textbox
 
+  reader-mode: true
+
   #navbar:
   #  right:
   #    - href: exercises/index.qmd
@@ -224,10 +226,29 @@ format:
     #      gtag('config', 'G-....');
     #    </script>
 
-  # THIS IS NOT WORKING YET ON GITHUB ACTIONS
-  #pdf:
-  #  documentclass: scrreprt
-  #
+  pdf:
+
+    # use XeLaTeX or LuaLaTeX so fontspec works:
+    latex-engine: xelatex
+
+    mainfont: "Source Sans 3" # "Merriweather"
+    sansfont: "Source Sans 3" # "Helvetica Neue"
+    monofont: "Menlo"
+    #fontsize: 11pt
+    #linestretch: 1.2
+
+    includes:
+      in-header: _pdf_styles.tex
+
+    #geometry:
+    #  - showframe
+
+
+
+
+
+
+
   #epub:
   #  toc: true # include a table of contents
   #  cover-image: images/predictive-modeling-book-banner.png
@@ -245,21 +266,3 @@ format:
   #  toc: true # include a table of contents
   #  toc-depth: 2 # control depth of table of contents
   #  embed-fonts: true # embed fonts in the DOCX
-
-
-  pdf:
-
-    # use XeLaTeX or LuaLaTeX so fontspec works:
-    latex-engine: xelatex
-
-    mainfont: "Source Sans 3" # "Merriweather"
-    sansfont: "Source Sans 3" # "Helvetica Neue"
-    monofont: "Menlo"
-    #fontsize: 11pt
-    #linestretch: 1.2
-
-    includes:
-      in-header: _pdf_styles.tex
-
-  #PrettyPDF-pdf:
-  #  keep-tex: true
