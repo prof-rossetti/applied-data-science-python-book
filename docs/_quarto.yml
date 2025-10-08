@@ -48,11 +48,11 @@ book:
 
   reader-mode: true
 
-  #navbar:
-  #  right:
-  #    - href: exercises/index.qmd
-  #      text: "Exercises, Assignments, and Projects"
-  #    - about-author.qmd
+  navbar:
+    right:
+      - text: "Exercises"
+        href: exercises/index.qmd
+      - about-author.qmd
 
   # https://quarto.org/docs/websites/website-navigation.html#side-navigation
   sidebar:
@@ -154,6 +154,9 @@ book:
         - href: notes/applied-stats/correlation.qmd
           text: "Correlation"
 
+
+    - "-----------------"
+    - exercises/index.qmd
 
     - "-----------------"
     - about-author.qmd
