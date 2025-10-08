@@ -204,7 +204,7 @@ format:
     # https://bootswatch.com/
     theme: # flatly #journal #minty
       light: flatly # default #flatly
-      dark: cyborg # vapor # superhero # darkly
+      dark: darkly # united # darkly # cyborg # vapor # superhero # darkly
     css: styles/my-style.css
     code-copy: true
     #code-fold: false #show
